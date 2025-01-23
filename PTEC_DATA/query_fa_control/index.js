@@ -1223,6 +1223,8 @@ const UpdateDtlAsset = async (req) => {
       .input('SerialNo', sql.NVarChar(100), req.SerialNo || null)
       .input('Price', sql.Float, req.Price || null)
       .input('Position', sql.NVarChar(100), req.Position || null)
+      .input('ImagePath', sql.NVarChar, req.ImagePath || null)
+      .input('ImagePath_2', sql.NVarChar, req.ImagePath_2 || null)
       .input('UserCode', sql.NVarChar(50), req.UserCode)
       .query(`
         exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[UpdateDtlAsset]
@@ -1236,6 +1238,8 @@ const UpdateDtlAsset = async (req) => {
         @SerialNo,
         @Price,
         @Position,
+        @ImagePath,
+        @ImagePath_2,
         @UserCode
         `);
     return fetch_assets.recordset;
@@ -1267,6 +1271,20 @@ const FA_Control_NAC_Backlog = async (req) => {
     const fetch_assets = await pool.request()
       .query(`
         exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_NAC_Backlog]`);
+    return fetch_assets.recordset;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const FA_Control_Assets_TypeGroup = async (req) => {
+  const sql = require("mssql");
+  const config = require('../../config');
+  try {
+    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    const fetch_assets = await pool.request()
+      .query(`
+        exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_Assets_TypeGroup]`);
     return fetch_assets.recordset;
   } catch (error) {
     return error.message;
@@ -1341,5 +1359,6 @@ module.exports = {
   UpdateDtlAsset,
   FA_Control_UpdateDetailCounted,
   FA_Control_AnnualGraph,
-  FA_Control_NAC_Backlog
+  FA_Control_NAC_Backlog,
+  FA_Control_Assets_TypeGroup
 }

@@ -892,6 +892,19 @@ const FA_Control_NAC_Backlog = async (req, res) => {
   }
 }
 
+const FA_Control_Assets_TypeGroup = async (req, res) => {
+  try {
+    const new_data = await query_fa_control.FA_Control_Assets_TypeGroup();
+    if (new_data.length == 0) {
+      res.status(400).send(JSON.stringify({ message: "ไม่พบข้อมูล" }));
+    } else {
+      res.status(200).send(JSON.stringify(new_data));
+    }
+  } catch (error) {
+    res.status(201).send(error.message);
+  }
+}
+
 
 module.exports = {
 
@@ -958,6 +971,7 @@ module.exports = {
   FA_Control_UpdateDetailCounted,
   FA_Control_AnnualGraph,
   FA_Control_NAC_Backlog,
+  FA_Control_Assets_TypeGroup,
 
   // Assets
   UpdateDtlAsset

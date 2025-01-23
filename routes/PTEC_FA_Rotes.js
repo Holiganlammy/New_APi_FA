@@ -48,6 +48,7 @@ const {
     FA_Control_Delete_PATH, check_files_NewNAC,
     FA_Control_Edit_EBook, FA_Control_BPC_Sendmail,
     FA_Mobile_UploadImage,
+    FA_Control_Assets_TypeGroup,
     //BPC
     FA_Control_BPC_UpdateDetails, FA_Control_BPC_Running_NO,
     FA_Control_BPC_SELECT_TEMP,
@@ -114,6 +115,7 @@ router.post('/FA_Control_Edit_EBook', FA_Control_Edit_EBook);
 router.post('/FA_Control_UpdateDetailCounted', FA_Control_UpdateDetailCounted);
 router.post('/FA_Control_AnnualGraph', FA_Control_AnnualGraph);
 router.get('/FA_Control_NAC_Backlog', FA_Control_NAC_Backlog)
+router.get('/FA_Control_Assets_TypeGroup',FA_Control_Assets_TypeGroup)
 
 // BPC
 router.post('/FA_Control_BPC_Sendmail', FA_Control_BPC_Sendmail);
