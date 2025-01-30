@@ -752,19 +752,20 @@ const stroe_FA_control_DTL_ConfirmSuccess = async (res) => {
   }
 }
 
-const store_FA_control_upadate_table = async (FA_control_upadate_table) => {
+const store_FA_control_upadate_table = async (req) => {
+  console.log(req);
+  
   const sql = require("mssql");
   const config = require('../../config');
   try {
     let pool = await sql.connect(config.PTEC.object_test_ops.sql);
     const control_upadate_table = await pool.request()
-      .input('nac_code', sql.VarChar(30), FA_control_upadate_table.nac_code)
-      .input('usercode', sql.VarChar(10), FA_control_upadate_table.usercode)
-      .input('nacdtl_assetsCode', sql.VarChar(50), FA_control_upadate_table.nacdtl_assetsCode)
-      .input('asset_id', sql.Int, FA_control_upadate_table.asset_id)
-      .input('nac_type', sql.Int, FA_control_upadate_table.nac_type)
-      .input('nac_status', sql.Int, FA_control_upadate_table.nac_status)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Update_Table @nac_code, @usercode, @nacdtl_assetsCode, @asset_id, @nac_type, @nac_status`);
+      .input('nac_code', sql.VarChar(30), req.nac_code)
+      .input('usercode', sql.VarChar(10), req.usercode)
+      .input('nacdtl_assetsCode', sql.VarChar(50), req.nacdtl_assetsCode)
+      .input('nac_type', sql.Int, req.nac_type)
+      .input('nac_status', sql.Int, req.nac_status)
+      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Update_Table @nac_code, @usercode, @nacdtl_assetsCode, @nac_type, @nac_status`);
     //sql.close()
     return control_upadate_table.recordset;
   } catch (error) {

@@ -516,6 +516,7 @@ const store_FA_control_upadate_table = async (req, res, next) => {
   try {
     const data = req.body;
     const FA_control_upadate_table = await query_fa_control.store_FA_control_upadate_table(data);
+    console.log(FA_control_upadate_table);
     res.setHeader("Content-Type", "application/json; charset=utf-8");
     if (FA_control_upadate_table.length == 0) {
       res.status(400).send(JSON.stringify({ message: "ไม่พบข้อมูล" }));
