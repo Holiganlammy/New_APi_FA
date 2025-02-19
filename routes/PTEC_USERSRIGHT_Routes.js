@@ -21,6 +21,8 @@ const { getsUser,
     User_ResetPassword,
     User_List,
     User_Save,
+    Organization_List,
+    User_List_ByPosition
 } = userController;
 
 router.get('/users', getsUser);
@@ -42,6 +44,8 @@ router.post('/User_UpdateUserInfo', User_UpdateUserInfo);
 router.post('/User_ResetPassword', User_ResetPassword);
 router.get('/User_List', User_List);
 router.post('/User_Save', User_Save);
+router.get('/Organization_List', Organization_List);
+router.get('/User_List_ByPosition', User_List_ByPosition);
 
 module.exports = {
     routes: router

@@ -333,15 +333,35 @@ const User_Save = async (req) => {
   }
 }
 
-// @Name varchar(100),
-// @loginname varchar(20),
-// @branchid varchar(50),
-// @department varchar(50),
-// @secid varchar(50),
-// @positionid varchar(50),
-// @empupper varchar(50)=null,
-// @email varchar(50),
-// @password varchar(50)
+const Organization_List = async (req) => {
+  const config = require('../../config');
+  const sql = require('mssql');
+  try {
+    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    const data = await pool.request()
+      .query(`exec [TEST_USERSRIGHT].dbo.[Organization_List]`);
+    //sql.close()
+    return data.recordset;
+  } catch (error) {
+    //sql.close()
+    return error.message;
+  }
+}
+
+const User_List_ByPosition = async (req) => {
+  const config = require('../../config');
+  const sql = require('mssql');
+  try {
+    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    const data = await pool.request()
+      .query(`exec [TEST_USERSRIGHT].dbo.[User_List_ByPosition]`);
+    //sql.close()
+    return data.recordset;
+  } catch (error) {
+    //sql.close()
+    return error.message;
+  }
+}
 
 module.exports = {
   getsUser,
@@ -360,4 +380,6 @@ module.exports = {
   User_UpdateUserInfo,
   User_ResetPassword,
   User_List,
+  Organization_List,
+  User_List_ByPosition
 }
