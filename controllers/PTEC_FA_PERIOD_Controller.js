@@ -55,6 +55,7 @@ const craete_period = async (req, res, next) => {
     const craete_period = req.body;
     res.setHeader("Content-Type", "application/json; charset=utf-8");
     const craete_period_branch = await query_fa_control_period.craete_period(craete_period);
+    console.log(req.body);
     if(craete_period_branch.length > 0){
       res.status(200).send(JSON.stringify({ message: "success", data: craete_period_branch }));
     }else{

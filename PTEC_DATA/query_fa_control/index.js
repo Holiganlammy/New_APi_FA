@@ -5,10 +5,10 @@ const getsAssets = async (branchIDparam) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const assetslist = await pool.request()
       .input('RoundID', sql.Int, branchIDparam.RoundID)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Mobile_assetsList @RoundID`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Mobile_assetsList @RoundID`);
     //sql.close()
     return assetslist.recordset;
   } catch (error) {
@@ -21,11 +21,11 @@ const getsAssets2 = async (branchIDparam) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const assetslist = await pool.request()
       .input('BranchID', sql.Int, branchIDparam.BranchID)
       .input('RoundID', sql.Int, branchIDparam.RoundID)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_List_allAssets @BranchID, @RoundID`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_List_allAssets @BranchID, @RoundID`);
     //sql.close()
     return assetslist.recordset;
   } catch (error) {
@@ -38,10 +38,10 @@ const getAssetCode = async (Code) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const oneAsset = await pool.request()
       .input('Code', sql.NVarChar(30), Code)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Mobile_getAssetByCode @Code ,@RoundID`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Mobile_getAssetByCode @Code ,@RoundID`);
     //sql.close()
     return oneAsset.recordset;
   } catch (error) {
@@ -54,12 +54,12 @@ const getAssetByUserBranchID = async (userBranchID) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const assetByUserID = await pool.request()
       .input('RoundID', sql.Int, userBranchID.RoundID)
       .input('BranchID', sql.Int, userBranchID.BranchID)
       .input('UserBranch', sql.Int, userBranchID.UserBranch)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_List_Assets_From_BranchID @UserBranch, @BranchID, @RoundID`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_List_Assets_From_BranchID @UserBranch, @BranchID, @RoundID`);
     //sql.close()
     return assetByUserID.recordset;
   } catch (error) {
@@ -72,12 +72,12 @@ const wrongBranchID = async (userBranchID) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const assetByUserID = await pool.request()
       .input('UserBranch', sql.Int, userBranchID.UserBranch)
       .input('BranchID', sql.Int, userBranchID.BranchID)
       .input('RoundID', sql.Int, userBranchID.RoundID)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_List_Wrong_Assets @UserBranch, @BranchID, @RoundID`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_List_Wrong_Assets @UserBranch, @BranchID, @RoundID`);
     //sql.close()
     return assetByUserID.recordset;
   } catch (error) {
@@ -90,12 +90,12 @@ const lostAssets = async (userBranchID) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const assetByUserID = await pool.request()
       .input('UserBranch', sql.Int, userBranchID.UserBranch)
       .input('BranchID', sql.Int, userBranchID.BranchID)
       .input('RoundID', sql.Int, userBranchID.RoundID)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Mobile_lost_asset @UserBranch,@BranchID,@RoundID`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Mobile_lost_asset @UserBranch,@BranchID,@RoundID`);
     //sql.close()
     return assetByUserID.recordset;
   } catch (error) {
@@ -108,11 +108,11 @@ const getAssetByCode = async (codeAsset) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const assetByCode = await pool.request()
       .input('Code', sql.NVarChar(30), codeAsset.Code)
       .input('RoundID', sql.Int, codeAsset.RoundID)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Mobile_getAssetByCode @Code ,@RoundID`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Mobile_getAssetByCode @Code ,@RoundID`);
     //sql.close()
     return assetByCode.recordset;
   } catch (error) {
@@ -125,10 +125,10 @@ const scan_check_result = async (codeAsset) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const assetByCode = await pool.request()
       .input('Code', sql.NVarChar(30), codeAsset.Code)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Mobile_scan_check_result @Code`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Mobile_scan_check_result @Code`);
     //sql.close()
     return assetByCode.recordset;
   } catch (error) {
@@ -141,12 +141,12 @@ const getAssetByCodeForTest = async (codeAsset) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const assetByCode = await pool.request()
       .input('Code', sql.NVarChar(30), codeAsset.Code)
       .input('UserBranch', sql.Int, codeAsset.UserBranch)
       .input('RoundID', sql.BigInt, codeAsset.RoundID)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Mobile_getassetForcreate @Code,@UserBranch,@RoundID`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Mobile_getassetForcreate @Code,@UserBranch,@RoundID`);
     //sql.close()
     return assetByCode.recordset;
   } catch (error) {
@@ -159,11 +159,11 @@ const check_code_wrong_branch = async (codeAsset) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const assetByCode = await pool.request()
       .input('Code', sql.NVarChar(30), codeAsset.Code)
       .input('RoundID', sql.BigInt, codeAsset.RoundID)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Mobile_check_code_wrong_branch  @Code, @RoundID`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Mobile_check_code_wrong_branch  @Code, @RoundID`);
     //sql.close()
     return assetByCode.recordset;
   } catch (error) {
@@ -176,7 +176,7 @@ const createAsset = async (res) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const insertAsset = await pool.request()
       .input('Code', sql.NVarChar(30), res.Code)
       .input('Name', sql.NVarChar(150), res.Name)
@@ -186,7 +186,7 @@ const createAsset = async (res) => {
       .input('UserBranch', sql.Int, res.UserBranch)
       .input('RoundID', sql.BigInt, res.RoundID)
       .input('Reference', sql.NVarChar(100), res.Reference)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Add_Assets_Counted @Reference, @Status, @RoundID, @UserBranch, @UserID, @Code`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Add_Assets_Counted @Reference, @Status, @RoundID, @UserBranch, @UserID, @Code`);
     //sql.close()
     return insertAsset.recordset;
   } catch (error) {
@@ -199,7 +199,7 @@ const updateReference = async (res) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const update = await pool.request()
       .input('Reference', sql.NVarChar(100), res.Reference)
       .input('Code', sql.NVarChar(30), res.Code)
@@ -207,7 +207,7 @@ const updateReference = async (res) => {
       .input('UserID', sql.BigInt, res.UserID)
       .input('choice', sql.Int, res.choice ?? 0)
       .input('comment', sql.NVarChar, res.comment ?? null)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Mobile_update_reference @Reference, @UserID, @Code, @RoundID, @choice, @comment`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Mobile_update_reference @Reference, @UserID, @Code, @RoundID, @choice, @comment`);
     //sql.close()
     return update.recordset;
   } catch (error) {
@@ -222,11 +222,11 @@ const AssetsAll_Control = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const assetsBranchID_Control = await pool.request()
       .input('BranchID', sql.Int, req.BranchID)
       .input('usercode', sql.NVarChar, req.usercode ?? null)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Mobile_AssetsAll_Control @BranchID, @usercode`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Mobile_AssetsAll_Control @BranchID, @usercode`);
     //sql.close()
     return assetsBranchID_Control.recordset;
   } catch (error) {
@@ -239,10 +239,10 @@ const SelectDTL_Control = async (DTL_Control) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const SelectDTL_Control = await pool.request()
       .input('Code', sql.NVarChar(30), DTL_Control.Code)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Mobile_SelectDtl_Control @Code`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Mobile_SelectDtl_Control @Code`);
     //sql.close()
     return SelectDTL_Control.recordset;
   } catch (error) {
@@ -255,7 +255,7 @@ const FA_Control_Create_Document_NAC = async (res) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const FAcontrol_create_doc = await pool.request()
       .input('nac_code', sql.VarChar(20), res.nac_code)
       .input('usercode', sql.VarChar(30), res.usercode)
@@ -287,7 +287,7 @@ const FA_Control_Create_Document_NAC = async (res) => {
       .input('real_price', sql.Float, res.real_price ?? null)
       .input('realPrice_Date', sql.DateTime, res.realPrice_Date ?? null)
       .query(`
-        exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_ControlNew_Create_NAC
+        exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_ControlNew_Create_NAC
         @nac_code,
         @usercode, 
         @nac_type, 
@@ -330,7 +330,7 @@ const FA_Control_Create_Detail_NAC = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_creat_Detail = await pool.request()
       .input('usercode', sql.VarChar(20), req.usercode)
       .input('nac_code', sql.VarChar(20), req.nac_code)
@@ -341,7 +341,7 @@ const FA_Control_Create_Detail_NAC = async (req) => {
       .input('nacdtl_profit', sql.Float, req.nacdtl_profit)
       .input('nacdtl_image_1', sql.NVarChar(255), req.nacdtl_image_1)
       .input('nacdtl_image_2', sql.NVarChar(255), req.nacdtl_image_2)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Create_Detail_NAC 
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Create_Detail_NAC 
               @usercode, 
               @nac_code, 
               @nacdtl_row, 
@@ -364,10 +364,10 @@ const FA_Control_Select_MyNAC = async (FA_control_select_NAC) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_select_NAC = await pool.request()
       .input('usercode', sql.VarChar(10), FA_control_select_NAC.usercode)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Select_MyNAC @usercode`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Select_MyNAC @usercode`);
     //sql.close()
     return control_select_NAC.recordset;
   } catch (error) {
@@ -380,10 +380,10 @@ const FA_Control_Select_MyNAC_Approve = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const FA_control_select_NAC_approve = await pool.request()
       .input('usercode', sql.VarChar(10), req.usercode)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Select_MyNAC_Approve @usercode`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Select_MyNAC_Approve @usercode`);
     //sql.close()
     return FA_control_select_NAC_approve.recordset;
   } catch (error) {
@@ -396,10 +396,10 @@ const store_FA_control_GuaranteeNAC = async (FA_control_GuaranteeNAC) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_GuaranteeNAC = await pool.request()
       .input('usercode', sql.VarChar(10), FA_control_GuaranteeNAC.usercode)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_GuaranteeNAC @userCode`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_GuaranteeNAC @userCode`);
     //sql.close()
     return control_GuaranteeNAC.recordset;
   } catch (error) {
@@ -412,10 +412,10 @@ const FA_Control_select_dtl = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_select_dtl = await pool.request()
       .input('nac_code', sql.NVarChar(20), req.nac_code)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_select_dtl @nac_code`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_select_dtl @nac_code`);
     //sql.close()
     return control_select_dtl.recordset;
   } catch (error) {
@@ -428,10 +428,10 @@ const store_FA_control_select_dtl_draff = async (FA_control_select_dtl) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_select_dtl = await pool.request()
       .input('nac_code', sql.NVarChar(20), FA_control_select_dtl.nac_code)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_select_dtl_draff @nac_code`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_select_dtl_draff @nac_code`);
     //sql.close()
     return control_select_dtl.recordset;
   } catch (error) {
@@ -444,10 +444,10 @@ const FA_Control_select_headers = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_select_headers = await pool.request()
       .input('nac_code', sql.NVarChar(20), req.nac_code)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_select_headers @nac_code`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_select_headers @nac_code`);
     //sql.close()
     return control_select_headers.recordset;
   } catch (error) {
@@ -460,7 +460,7 @@ const store_FA_control_update_DTLandHeaders = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const update_DTLandHeaders = await pool.request()
       .input('usercode', sql.VarChar(10), req.usercode)
       .input('nac_code', sql.NVarChar(20), req.nac_code)
@@ -483,7 +483,7 @@ const store_FA_control_update_DTLandHeaders = async (req) => {
       .input('source_description', sql.NVarChar(200), req.source_description)
       .input('realPrice_Date', sql.NVarChar, req.realPrice_Date ?? null)
       .query(
-        `exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Update_DTLandHEADERS 
+        `exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Update_DTLandHEADERS 
         @usercode, 
         @nac_code, 
         @nac_status, 
@@ -517,7 +517,7 @@ const store_FA_control_update_DTL = async (FA_control_update_DTL) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const update_DTL = await pool.request()
       .input('dtl_id', sql.Int, FA_control_update_DTL.dtl_id)
       .input('usercode', sql.VarChar(10), FA_control_update_DTL.usercode)
@@ -532,7 +532,7 @@ const store_FA_control_update_DTL = async (FA_control_update_DTL) => {
       .input('asset_id', sql.Int, FA_control_update_DTL.asset_id)
       .input('image_1', sql.NVarChar, FA_control_update_DTL.image_1 ?? null)
       .input('image_2', sql.NVarChar, FA_control_update_DTL.image_2 ?? null)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Update_DTL @dtl_id, @usercode, @nac_code, @nacdtl_row, @nacdtl_assetsCode, @nacdtl_assetsName, @nacdtl_assetsSeria, @nacdtl_assetsDtl, @nacdtl_assetsCount, @nacdtl_assetsPrice, @asset_id, @image_1, @image_2`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Update_DTL @dtl_id, @usercode, @nac_code, @nacdtl_row, @nacdtl_assetsCode, @nacdtl_assetsName, @nacdtl_assetsSeria, @nacdtl_assetsDtl, @nacdtl_assetsCount, @nacdtl_assetsPrice, @asset_id, @image_1, @image_2`);
     //sql.close()
     return update_DTL.recordset;
   } catch (error) {
@@ -545,11 +545,11 @@ const FA_Control_execDocID = async (FA_control_execDocID) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_execDocID = await pool.request()
       .input('usercode', sql.VarChar(10), FA_control_execDocID.user_source)
       .input('nac_code', sql.NVarChar(20), FA_control_execDocID.nac_code)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_execDocID @userCode, @nac_code`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_execDocID @userCode, @nac_code`);
     //sql.close()
     return control_execDocID.recordset;
   } catch (error) {
@@ -562,12 +562,12 @@ const FA_control_updateStatus = async (res) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_updateStatus = await pool.request()
       .input('usercode', sql.VarChar(10), res.usercode)
       .input('nac_code', sql.NVarChar(20), res.nac_code)
       .input('nac_status', sql.Int, res.nac_status)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_updateStatus @usercode , @nac_code, @nac_status`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_updateStatus @usercode , @nac_code, @nac_status`);
     //sql.close()
     return control_updateStatus.recordset;
   } catch (error) {
@@ -580,7 +580,7 @@ const store_FA_control_seals_update = async (FA_control_updateStatus) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_updateStatus = await pool.request()
       .input('usercode', sql.VarChar(10), FA_control_updateStatus.usercode)
       .input('nac_code', sql.NVarChar(20), FA_control_updateStatus.nac_code)
@@ -596,7 +596,7 @@ const store_FA_control_seals_update = async (FA_control_updateStatus) => {
       .input('des_approve_date', sql.NVarChar, FA_control_updateStatus.des_approve_date)
       .input('verify_by', sql.NVarChar(10), FA_control_updateStatus.verify_by)
       .input('verify_date', sql.NVarChar, FA_control_updateStatus.verify_date)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Update_Seals @usercode, @nac_code, @nac_status, @nac_type, @source, @sourceDate, @des_delivery, @des_deliveryDate, @source_approve, @source_approve_date, @des_approve, @des_approve_date, @verify_by, @verify_date`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Update_Seals @usercode, @nac_code, @nac_status, @nac_type, @source, @sourceDate, @des_delivery, @des_deliveryDate, @source_approve, @source_approve_date, @des_approve, @des_approve_date, @verify_by, @verify_date`);
     //sql.close()
     return control_updateStatus.recordset;
   } catch (error) {
@@ -609,7 +609,7 @@ const store_FA_control_updateDTL_seals = async (res) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const update_DTL = await pool.request()
       .input('usercode', sql.VarChar(10), res.usercode)
       .input('nac_code', sql.VarChar(20), res.nac_code)
@@ -620,7 +620,7 @@ const store_FA_control_updateDTL_seals = async (res) => {
       .input('nacdtl_profit', sql.Float, parseFloat(res.nacdtl_profit))
       .input('asset_id', sql.Int, parseFloat(res.asset_id))
       .input('nacdtl_assetsCode', sql.VarChar(20), res.nacdtl_assetsCode)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_UpdateDTL_Seals @usercode, @nac_code, @nac_status, @nac_type, @nacdtl_bookV, @nacdtl_PriceSeals, @nacdtl_profit, @asset_id, @nacdtl_assetsCode`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_UpdateDTL_Seals @usercode, @nac_code, @nac_status, @nac_type, @nacdtl_bookV, @nacdtl_PriceSeals, @nacdtl_profit, @asset_id, @nacdtl_assetsCode`);
     //sql.close()
     return update_DTL.recordset;
   } catch (error) {
@@ -633,11 +633,11 @@ const store_FA_control_drop_NAC = async (FA_control_drop_NAC) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_drop_NAC = await pool.request()
       .input('usercode', sql.VarChar(10), FA_control_drop_NAC.usercode)
       .input('nac_code', sql.NVarChar(20), FA_control_drop_NAC.nac_code)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Drop_DocumentNAC @usercode, @nac_code`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Drop_DocumentNAC @usercode, @nac_code`);
     //sql.close()
     return control_drop_NAC.recordset;
   } catch (error) {
@@ -650,12 +650,12 @@ const store_FA_control_comment = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_drop_NAC = await pool.request()
       .input('nac_code', sql.VarChar(20), req.nac_code)
       .input('usercode', sql.NVarChar(20), req.usercode)
       .input('comment', sql.NVarChar(200), req.comment)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_NAC_Comment @nac_code, @usercode, @comment`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_NAC_Comment @nac_code, @usercode, @comment`);
     //sql.close()
     return control_drop_NAC.recordset;
   } catch (error) {
@@ -669,13 +669,13 @@ const stroe_FA_control_Path = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_Path = await pool.request()
       .input('nac_code', sql.VarChar(20), req.nac_code)
       .input('usercode', sql.VarChar(10), req.usercode)
       .input('description', sql.NVarChar(200), req.description)
       .input('linkpath', sql.NVarChar(200), req.linkpath)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_NAC_PATH @nac_code, @usercode, @description, @linkpath`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_NAC_PATH @nac_code, @usercode, @description, @linkpath`);
     //sql.close()
     return control_Path.recordset;
   } catch (error) {
@@ -688,10 +688,10 @@ const qureyNAC_comment = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_drop_NAC = await pool.request()
       .input('nac_code', sql.VarChar(20), req.nac_code)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_qureyNAC_comment @nac_code`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_qureyNAC_comment @nac_code`);
     //sql.close()
     return control_drop_NAC.recordset;
   } catch (error) {
@@ -704,10 +704,10 @@ const qureyNAC_path = async (NAC_comment) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_drop_NAC = await pool.request()
       .input('nac_code', sql.VarChar(20), NAC_comment.nac_code)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_qureyNAC_path @nac_code`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_qureyNAC_path @nac_code`);
     //sql.close()
     return control_drop_NAC.recordset;
   } catch (error) {
@@ -720,10 +720,10 @@ const FA_Control_CheckAssetCode_Process = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_drop_NAC = await pool.request()
       .input('nacdtl_assetsCode', sql.VarChar(20), req.nacdtl_assetsCode)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_CheckAssetCode_Process @nacdtl_assetsCode`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_CheckAssetCode_Process @nacdtl_assetsCode`);
     //sql.close()
     return control_drop_NAC.recordset;
   } catch (error) {
@@ -736,14 +736,14 @@ const stroe_FA_control_DTL_ConfirmSuccess = async (res) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_drop_NAC = await pool.request()
       .input('nac_code', sql.VarChar(30), res.nac_code)
       .input('usercode', sql.VarChar(10), res.usercode)
       .input('nacdtl_assetsCode', sql.VarChar(50), res.nacdtl_assetsCode)
       .input('asset_id', sql.Int, res.asset_id)
       .input('statusCheck', sql.Int, res.statusCheck)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_DTL_ConfirmSuccess @nac_code, @usercode, @nacdtl_assetsCode, @asset_id, @statusCheck`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_DTL_ConfirmSuccess @nac_code, @usercode, @nacdtl_assetsCode, @asset_id, @statusCheck`);
     //sql.close()
     return control_drop_NAC.recordset;
   } catch (error) {
@@ -758,14 +758,14 @@ const store_FA_control_upadate_table = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_upadate_table = await pool.request()
       .input('nac_code', sql.VarChar(30), req.nac_code)
       .input('usercode', sql.VarChar(10), req.usercode)
       .input('nacdtl_assetsCode', sql.VarChar(50), req.nacdtl_assetsCode)
       .input('nac_type', sql.Int, req.nac_type)
       .input('nac_status', sql.Int, req.nac_status)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Update_Table @nac_code, @usercode, @nacdtl_assetsCode, @nac_type, @nac_status`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Update_Table @nac_code, @usercode, @nacdtl_assetsCode, @nac_type, @nac_status`);
     //sql.close()
     return control_upadate_table.recordset;
   } catch (error) {
@@ -778,10 +778,10 @@ const store_FA_SendMail = async (FA_SendMail) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_upadate_table = await pool.request()
       .input('nac_code', sql.VarChar(30), FA_SendMail.nac_code)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Controls_NAC_SendMail @nac_code`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Controls_NAC_SendMail @nac_code`);
     //sql.close()
     return control_upadate_table.recordset;
   } catch (error) {
@@ -794,13 +794,13 @@ const store_FA_control_Create_from_reported = async (FA_control_Create_from_repo
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_upadate_table = await pool.request()
       .input('nac_code', sql.VarChar(30), FA_control_Create_from_reported.nac_code)
       .input('usercode', sql.VarChar(10), FA_control_Create_from_reported.usercode)
       .input('nacdtl_assetsCode', sql.VarChar(50), FA_control_Create_from_reported.nacdtl_assetsCode)
       .input('nacdtl_row', sql.Int, FA_control_Create_from_reported.nacdtl_row)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Create_from_reported @usercode, @nac_code, @nacdtl_assetsCode, @nacdtl_row`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Create_from_reported @usercode, @nac_code, @nacdtl_assetsCode, @nacdtl_row`);
     //sql.close()
     return control_upadate_table.recordset;
   } catch (error) {
@@ -813,10 +813,10 @@ const store_FA_control_HistorysAssets = async (res) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const control_upadate_table = await pool.request()
       .input('userCode', sql.VarChar(10), res.userCode)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.[Fix_Assets_Control_HistoryAssets] @userCode`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.[Fix_Assets_Control_HistoryAssets] @userCode`);
     //sql.close()
     return control_upadate_table.recordset;
   } catch (error) {
@@ -829,10 +829,10 @@ const FA_Control_Fetch_Assets = async (FA_control_fetch_assets) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('usercode', sql.VarChar(10), FA_control_fetch_assets.usercode)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Fetch_Assets @usercode`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Fetch_Assets @usercode`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -845,10 +845,10 @@ const FA_Control_Report_All_Counted_by_Description = async (Report_All_Counted_b
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('Description', sql.NVarChar(200), Report_All_Counted_by_Description.Description)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_Report_All_Counted_by_Description @Description`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Report_All_Counted_by_Description @Description`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -861,7 +861,7 @@ const FA_Control_New_Assets = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('UserCode', sql.NVarChar(200), req.UserCode)
       .input('Code', sql.NVarChar(200), req.Code)
@@ -880,7 +880,7 @@ const FA_Control_New_Assets = async (req) => {
       .input('image_2', sql.NVarChar, req.image_2 ?? null)
       .input('OwnerCode', sql.NVarChar, req.OwnerCode ?? null)
       .input('Position', sql.NVarChar, req.Position ?? null)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.FA_Control_New_Assets @UserCode, @Code, @Name, @Asset_group, @Group_name, @BranchID, @Details, @TypeGroup, @SerialNo, @Price, @Create_Date, @bac_type, @keyID, @user_name, @image_2,@OwnerCode,@Position`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_New_Assets @UserCode, @Code, @Name, @Asset_group, @Group_name, @BranchID, @Details, @TypeGroup, @SerialNo, @Price, @Create_Date, @bac_type, @keyID, @user_name, @image_2,@OwnerCode,@Position`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -893,7 +893,7 @@ const FA_Control_New_Assets_Xlsx = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('UserCode', sql.NVarChar, req.UserCode ?? null)
       .input('Code', sql.NVarChar, req.Code ?? null)
@@ -912,7 +912,7 @@ const FA_Control_New_Assets_Xlsx = async (req) => {
       .input('bac_type', sql.NVarChar, req.bac_type ?? null)
       .input('key', sql.NVarChar, req.keyID ?? null)
       .input('user_name', sql.NVarChar, req.user_name ?? null)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.[FA_Control_Upload_Assets_Xlsx] @UserCode, @Code, @Name, @BranchID , @OwnerCode, @Asset_group, @Group_name, @SerialNo, @Price, @CreateDate, @CreateBy, @Position, @Details, @TypeGroup, @bac_type, @key, @user_name`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.[FA_Control_Upload_Assets_Xlsx] @UserCode, @Code, @Name, @BranchID , @OwnerCode, @Asset_group, @Group_name, @SerialNo, @Price, @CreateDate, @CreateBy, @Position, @Details, @TypeGroup, @bac_type, @key, @user_name`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -925,11 +925,11 @@ const FA_Control_import_dataXLSX_toAssets = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('count', sql.Int, req.count ?? null)
       .input('keyID', sql.NVarChar, req.keyID ?? null)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.[FA_Control_import_dataXLSX_toAssets] @count, @keyID`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.[FA_Control_import_dataXLSX_toAssets] @count, @keyID`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -942,12 +942,12 @@ const FA_Control_Running_NO = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .query(`
           declare @nac_code varchar(100)
           declare @date_time datetime = getdate()
-          exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[RunningNo] 'ATT', @date_time, @nac_code output
+          exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[RunningNo] 'ATT', @date_time, @nac_code output
 
           select @nac_code as ATT
       `);
@@ -963,9 +963,9 @@ const FA_Control_BPC_SelectStatus = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.[FA_Control_BPC_SelectStatus]`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.[FA_Control_BPC_SelectStatus]`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -978,10 +978,10 @@ const FA_Control_Delete_PATH = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('linkpath_id', sql.Int, parseInt(req.linkpath_id) ?? null)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_Delete_PATH] @linkpath_id`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_Delete_PATH] @linkpath_id`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -994,12 +994,12 @@ const FA_Control_Edit_EBook = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('Code', sql.NVarChar, req.Code ?? null)
       .input('image_1', sql.NVarChar, req.image_1 ?? '')
       .input('image_2', sql.NVarChar, req.image_2 ?? '')
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_Edit_EBook] @Code, @image_1, @image_2`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_Edit_EBook] @Code, @image_1, @image_2`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -1012,7 +1012,7 @@ const FA_Control_BPC_Sendmail = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('me', sql.NVarChar, req.ME)
       .input('ktt', sql.NVarChar, req.KTT === false ? undefined : req.KTT)
@@ -1020,7 +1020,7 @@ const FA_Control_BPC_Sendmail = async (req) => {
       .input('rod', sql.NVarChar, req.ROD === false ? undefined : req.ROD)
       .input('code_ref', sql.NVarChar, req.code_ref)
       .input('data', sql.NVarChar, req.data)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_BPC_Sendmail] @me, @ktt, @grp, @rod, @data, @code_ref`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_BPC_Sendmail] @me, @ktt, @grp, @rod, @data, @code_ref`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -1033,7 +1033,7 @@ const FA_Control_BPC_UpdateDetails = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('UserCode', sql.NVarChar, req.userCode)
       .input('Code', sql.NVarChar, req.Code)
@@ -1043,7 +1043,7 @@ const FA_Control_BPC_UpdateDetails = async (req) => {
       .input('image_1', sql.NVarChar, req.image_1)
       .input('image_2', sql.NVarChar, req.image_2)
       .input('user_name', sql.NVarChar, req.user_name)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_BPC_UpdateDetails] @UserCode, @Code, @Details, @Comments, @keyID, @image_1, @image_2, @user_name`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_BPC_UpdateDetails] @UserCode, @Code, @Details, @Comments, @keyID, @image_1, @image_2, @user_name`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -1056,12 +1056,12 @@ const FA_Control_BPC_Running_NO = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .query(`
           declare @KeyID varchar(100)
           declare @date_time datetime = getdate()
-          exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[RunningNo] 'TAB', @date_time, @KeyID output
+          exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[RunningNo] 'TAB', @date_time, @KeyID output
 
           select @KeyID as TAB
       `);
@@ -1077,10 +1077,10 @@ const FA_Control_BPC_SELECT_TEMP = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('keyID', sql.NVarChar, req.keyID)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_BPC_SELECT_TEMP] @KeyID`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_BPC_SELECT_TEMP] @KeyID`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -1093,9 +1093,9 @@ const FA_Control_BPC_GroupBy = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_BPC_GroupBy]`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_BPC_GroupBy]`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -1108,14 +1108,14 @@ const FA_Control_BPC_SubmitVertify = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('tab_code', sql.NVarChar, req.tab_code ?? null)
       .input('assetID', sql.Int, req.assetID ?? null)
       .input('userid', sql.NVarChar, req.userid ?? null)
       .input('statusid', sql.Int, req.statusid ?? null)
       .input('count', sql.Int, req.count ?? null)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_BPC_SubmitVertify] @tab_code, @assetID ,@userid ,@statusid, @count`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_BPC_SubmitVertify] @tab_code, @assetID ,@userid ,@statusid, @count`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -1128,13 +1128,13 @@ const FA_Control_BPC_UpdateTemp = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('Code', sql.NVarChar, req.Code ?? null)
       .input('keyID', sql.NVarChar, req.keyID ?? null)
       .input('Comments', sql.NVarChar, req.Comments ?? null)
       .input('image_2', sql.NVarChar, req.image_2 ?? null)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_BPC_UpdateTemp] @Code, @keyID ,@Comments ,@image_2`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_BPC_UpdateTemp] @Code, @keyID ,@Comments ,@image_2`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -1147,13 +1147,13 @@ const FA_Mobile_UploadImage = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('Code', sql.NVarChar, req.Code ?? null)
       .input('RoundID', sql.NVarChar, req.RoundID ?? null)
       .input('index', sql.Int, req.index ?? null)
       .input('url', sql.NVarChar, req.url ?? null)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Mobile_UploadImage] @Code, @RoundID ,@index ,@url`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Mobile_UploadImage] @Code, @RoundID ,@index ,@url`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -1166,9 +1166,9 @@ const FA_Control_ListStatus = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_ListStatus]`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_ListStatus]`);
     //sql.close()
     return fetch_assets.recordset;
   } catch (error) {
@@ -1181,7 +1181,7 @@ const FA_Control_UpdateDetailCounted = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('roundid', sql.Int, req.roundid)
       .input('code', sql.NVarChar(20), req.code)
@@ -1192,7 +1192,7 @@ const FA_Control_UpdateDetailCounted = async (req) => {
       .input('image_2', sql.NVarChar, req.image_2)
       .input('userid', sql.Int, req.userid)
       .query(`
-        exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_UpdateDetailCounted]
+        exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_UpdateDetailCounted]
         @roundid,
         @code,
         @status,
@@ -1212,7 +1212,7 @@ const UpdateDtlAsset = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('Code', sql.NVarChar(20), req.Code)
       .input('Name', sql.NVarChar(150), req.Name || null)
@@ -1228,7 +1228,7 @@ const UpdateDtlAsset = async (req) => {
       .input('ImagePath_2', sql.NVarChar, req.ImagePath_2 || null)
       .input('UserCode', sql.NVarChar(50), req.UserCode)
       .query(`
-        exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[UpdateDtlAsset]
+        exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[UpdateDtlAsset]
         @Code,
         @Name,
         @Asset_group,
@@ -1253,11 +1253,11 @@ const FA_Control_AnnualGraph = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .input('TargetYear', sql.Int, req.TargetYear)
       .query(`
-        exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_AnnualGraph] @TargetYear`);
+        exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_AnnualGraph] @TargetYear`);
     return fetch_assets.recordset;
   } catch (error) {
     return error.message;
@@ -1268,10 +1268,10 @@ const FA_Control_NAC_Backlog = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .query(`
-        exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_NAC_Backlog]`);
+        exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_NAC_Backlog]`);
     return fetch_assets.recordset;
   } catch (error) {
     return error.message;
@@ -1282,10 +1282,10 @@ const FA_Control_Assets_TypeGroup = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const fetch_assets = await pool.request()
       .query(`
-        exec ${config.PTEC.object_test_ops.sql.database}.[dbo].[FA_Control_Assets_TypeGroup]`);
+        exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_Assets_TypeGroup]`);
     return fetch_assets.recordset;
   } catch (error) {
     return error.message;

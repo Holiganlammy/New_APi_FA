@@ -198,10 +198,10 @@ const ReactJS_LaunchingMenu = async (res) => {
   const config = require('../../config');
   const sql = require('mssql');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
       .input('userid', sql.Int, res.userid)
-      .query(`exec ${config.PTEC.object_test_ops.sql.database}.dbo.[ReactJS_LaunchingMenu] @userid`);
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.[ReactJS_LaunchingMenu] @userid`);
     //sql.close()
     return data.recordset;
   } catch (error) {
@@ -240,7 +240,7 @@ const User_UpdateUserInfo = async (req) => {
   const config = require('../../config');
   const sql = require('mssql');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
       .input('userid', sql.Int, req.userid)
       .input('password', sql.NVarChar(100), req.password)
@@ -265,7 +265,7 @@ const User_ResetPassword = async (req) => {
   const config = require('../../config');
   const sql = require('mssql');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
       .input('loginname', sql.NVarChar(20), req.loginname)
       .input('newpassword', sql.NVarChar(100), req.newpassword)
@@ -284,7 +284,7 @@ const User_List = async (req) => {
   const config = require('../../config');
   const sql = require('mssql');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
       .query(`exec [TEST_USERSRIGHT].dbo.[User_List]`);
     //sql.close()
@@ -299,7 +299,7 @@ const User_Save = async (req) => {
   const config = require('../../config');
   const sql = require('mssql');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
       .input('fristName', sql.NVarChar(100), req.fristName)
       .input('lastName', sql.NVarChar(100), req.lastName)
@@ -337,7 +337,7 @@ const Organization_List = async (req) => {
   const config = require('../../config');
   const sql = require('mssql');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
       .query(`exec [TEST_USERSRIGHT].dbo.[Organization_List]`);
     //sql.close()
@@ -352,7 +352,7 @@ const User_List_ByPosition = async (req) => {
   const config = require('../../config');
   const sql = require('mssql');
   try {
-    let pool = await sql.connect(config.PTEC.object_test_ops.sql);
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
       .query(`exec [TEST_USERSRIGHT].dbo.[User_List_ByPosition]`);
     //sql.close()
