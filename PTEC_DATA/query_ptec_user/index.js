@@ -7,7 +7,7 @@ const getsUser = async () => {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const list = await pool
       .request()
-      .query(`exec [TEST_USERSRIGHT].dbo.[Fix_Assets_Control_Fetching_Users]`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.[Fix_Assets_Control_Fetching_Users]`);
     //sql.close()
     return list.recordset;
   } catch (error) {
@@ -23,7 +23,7 @@ const getById = async (UserCode) => {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const oneUser = await pool.request()
       .input('UserCode', sql.VarChar(10), UserCode)
-      .query(`exec [TEST_USERSRIGHT].dbo.[Fix_Assets_Control_Fetching_Users_ByUserCode] @UserCode`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.[Fix_Assets_Control_Fetching_Users_ByUserCode] @UserCode`);
     //sql.close()
     return oneUser.recordset;
   } catch (error) {
@@ -41,7 +41,7 @@ const getByEmailAndCode = async (loginuser) => {
     const login = await pool.request()
       .input('UserCode', sql.VarChar(20), loginuser.UserCode)
       .input('Password', sql.VarChar(20), loginuser.Password)
-      .query(`exec [TEST_USERSRIGHT].dbo.User_Login @UserCode,@Password `);
+      .query(`exec [PTEC_USERSRIGHT].dbo.User_Login @UserCode,@Password `);
     //sql.close()
     return login.recordset;
   } catch (error) {
@@ -63,9 +63,9 @@ const AutoDeapartMent = async (autoDeapartMent) => {
                     ,U.[BranchID]
                     ,U.[Name]
                     ,BM.[manager]
-      FROM [TEST_USERSRIGHT].dbo.[Users] U 
-      LEFT JOIN [TEST_USERSRIGHT].dbo.[Department] D On D.DepID=U.DepID
-      LEFT JOIN [TEST_USERSRIGHT].dbo.[Branch_Manager] BM On BM.BranchID=U.BranchID
+      FROM [PTEC_USERSRIGHT].dbo.[Users] U 
+      LEFT JOIN [PTEC_USERSRIGHT].dbo.[Department] D On D.DepID=U.DepID
+      LEFT JOIN [PTEC_USERSRIGHT].dbo.[Branch_Manager] BM On BM.BranchID=U.BranchID
       WHERE U.[UserCode]=@UserCode
       `);
     //sql.close()
@@ -83,7 +83,7 @@ const ChackUserWeb = async (UserWeb) => {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const auto_DeapartMent = await pool.request()
       .input('usercode', sql.VarChar(10), UserWeb.usercode)
-      .query(`exec [TEST_USERSRIGHT].dbo.Fix_Assets_Control_UserWeb @usercode`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.Fix_Assets_Control_UserWeb @usercode`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -101,7 +101,7 @@ const select_Permission_Menu_NAC = async (res) => {
       .input('Permission_TypeID', sql.Int, res.Permission_TypeID)
       .input('userID', sql.Int, res.userID)
       .input('UserCode', sql.VarChar, res.UserCode)
-      .query(`exec [TEST_USERSRIGHT].dbo.Select_Permission_Menu_NAC @Permission_TypeID,@userID,@UserCode`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.Select_Permission_Menu_NAC @Permission_TypeID,@userID,@UserCode`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -117,7 +117,7 @@ const Permission_Menu_NAC = async (res) => {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const auto_DeapartMent = await pool.request()
       .input('UserCode', sql.VarChar, res.UserCode)
-      .query(`exec [TEST_USERSRIGHT].dbo.Fix_Assets_Control_Permission_Menu`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.Fix_Assets_Control_Permission_Menu`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -136,7 +136,7 @@ const Fix_Assets_Control_UPDATE_Permission = async (res) => {
       .input('UserCode', sql.VarChar, res.UserCode)
       .input('menuid', sql.Int, res.menuid)
       .input('id', sql.Int, res.id)
-      .query(`exec [TEST_USERSRIGHT].dbo.Fix_Assets_Control_UPDATE_Permission @admin ,@UserCode ,@menuid ,@id`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.Fix_Assets_Control_UPDATE_Permission @admin ,@UserCode ,@menuid ,@id`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -152,7 +152,7 @@ const Department_List = async (res) => {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const auto_DeapartMent = await pool.request()
       .input('branchid', sql.Int, res.branchid)
-      .query(`exec [TEST_USERSRIGHT].dbo.[Department_List] @branchid`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.[Department_List] @branchid`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -167,7 +167,7 @@ const Branch_ListAll = async (res) => {
   try {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const auto_DeapartMent = await pool.request()
-      .query(`exec [TEST_USERSRIGHT].dbo.[Branch_ListAll]`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.[Branch_ListAll]`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -185,7 +185,7 @@ const useright_getWelfare = async (res) => {
       .input('welfaretypeid', sql.Int, res.welfaretypeid ?? null)
       .input('sbc_hotelProvince', sql.NVarChar, res.sbc_hotelProvince ?? null)
       .input('usercode', sql.NVarChar, res.usercode ?? null)
-      .query(`exec [TEST_USERSRIGHT].dbo.[useright_getWelfare] @welfaretypeid, @sbc_hotelProvince, @usercode`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.[useright_getWelfare] @welfaretypeid, @sbc_hotelProvince, @usercode`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -247,7 +247,7 @@ const User_UpdateUserInfo = async (req) => {
       .input('fristName', sql.NVarChar(100), req.fristName)
       .input('lastName', sql.NVarChar(100), req.lastName)
       .input('img_profile', sql.NVarChar(100), req.img_profile)
-      .query(`exec [TEST_USERSRIGHT].dbo.[User_UpdateUserInfo] 
+      .query(`exec [PTEC_USERSRIGHT].dbo.[User_UpdateUserInfo] 
               @userid,
               @password,
               @fristName,
@@ -269,7 +269,7 @@ const User_ResetPassword = async (req) => {
     const data = await pool.request()
       .input('loginname', sql.NVarChar(20), req.loginname)
       .input('newpassword', sql.NVarChar(100), req.newpassword)
-      .query(`exec [TEST_USERSRIGHT].dbo.[User_ResetPassword] 
+      .query(`exec [PTEC_USERSRIGHT].dbo.[User_ResetPassword] 
               @loginname,
               @newpassword`);
     //sql.close()
@@ -286,7 +286,7 @@ const User_List = async (req) => {
   try {
     let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
-      .query(`exec [TEST_USERSRIGHT].dbo.[User_List]`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.[User_List]`);
     //sql.close()
     return data.recordset;
   } catch (error) {
@@ -312,7 +312,7 @@ const User_Save = async (req) => {
       .input('email', sql.NVarChar(100), req.email)
       .input('actived', sql.Bit, req.actived)
       .input('password', sql.NVarChar(20), req.password)
-      .query(`exec [TEST_USERSRIGHT].dbo.[User_Save] 
+      .query(`exec [PTEC_USERSRIGHT].dbo.[User_Save] 
               @fristName,
               @lastName,
               @loginname,
@@ -339,7 +339,7 @@ const Organization_List = async (req) => {
   try {
     let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
-      .query(`exec [TEST_USERSRIGHT].dbo.[Organization_List]`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.[Organization_List]`);
     //sql.close()
     return data.recordset;
   } catch (error) {
@@ -354,7 +354,7 @@ const User_List_ByPosition = async (req) => {
   try {
     let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
-      .query(`exec [TEST_USERSRIGHT].dbo.[User_List_ByPosition]`);
+      .query(`exec [PTEC_USERSRIGHT].dbo.[User_List_ByPosition]`);
     //sql.close()
     return data.recordset;
   } catch (error) {
