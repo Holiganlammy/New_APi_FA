@@ -28,7 +28,8 @@ const {
   SmartBill_Withdraw_updateSBW,
   SmartBill_Withdraw_SelectCostOther,
   NonPO_Delete_Attach_By_attachid,
-  SmartBill_AcceptHeader
+  SmartBill_AcceptHeader,
+  NonPO_PermisstionOperator
   
 } = billController;
 
@@ -55,6 +56,7 @@ router.post('/SmartBill_Withdraw_updateSBW', SmartBill_Withdraw_updateSBW);
 router.post('/NonPO_Delete_Attach_By_attachid', NonPO_Delete_Attach_By_attachid);
 router.get('/SmartBill_Withdraw_SelectCostOther', SmartBill_Withdraw_SelectCostOther);
 router.post('/SmartBill_AcceptHeader', SmartBill_AcceptHeader);
+router.post('/NonPO_PermisstionOperator', NonPO_PermisstionOperator);
 
 module.exports = {
   routes: router

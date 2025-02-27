@@ -286,7 +286,7 @@ const User_List = async (req) => {
   try {
     let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
-      .query(`exec [PTEC_USERSRIGHT].dbo.[User_List]`);
+      .query(`exec [TEST_USERSRIGHT].dbo.[User_List]`);
     //sql.close()
     return data.recordset;
   } catch (error) {

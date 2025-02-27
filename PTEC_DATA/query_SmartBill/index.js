@@ -576,6 +576,25 @@ const SmartBill_AcceptHeader = async (res) => {
   }
 }
 
+const NonPO_PermisstionOperator = async (res) => {
+  const config = require('../../config');
+  const sql = require('mssql');
+  try {
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
+    const resdata = await pool.request()
+      .input('category_nonpo', sql.NVarChar, res.category_nonpo)
+      .query(`
+      exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.[NonPO_PermisstionOperator] 
+        @category_nonpo
+      `);
+    if (resdata !== null) {
+      return resdata.recordsets;
+    }
+  } catch (error) {
+    return error.message;
+  }
+}
+
 module.exports = {
   SmartBill_CreateForms,
   SmartBill_CreateOperation,
@@ -601,5 +620,6 @@ module.exports = {
   SmartBill_Withdraw_updateSBW,
   SmartBill_Withdraw_SelectCostOther,
   NonPO_Delete_Attach_By_attachid,
-  SmartBill_AcceptHeader
+  SmartBill_AcceptHeader,
+  NonPO_PermisstionOperator
 }
