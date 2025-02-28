@@ -1208,6 +1208,24 @@ const FA_Control_UpdateDetailCounted = async (req) => {
   }
 };
 
+const delete_image_asset = async (req) => {
+  const sql = require("mssql");
+  const config = require('../../config');
+  try {
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
+    const fetch_assets = await pool.request()
+      .input('code', sql.NVarChar(20), req.code)
+      .input('imagePath', sql.NVarChar, req.imagePath)
+      .input('imagePath_2', sql.NVarChar, req.imagePath_2)
+      .query(`
+        exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Mobile_checkImgUplode] @code,@image_1,@image_2
+        `);
+    return fetch_assets.recordset;
+  } catch (error) {
+    return error.message;
+  }
+};
+
 const UpdateDtlAsset = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');

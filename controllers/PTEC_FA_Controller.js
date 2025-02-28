@@ -4,6 +4,26 @@ const { DateTime } = require('mssql');
 const query_fa_control = require('../PTEC_DATA/query_fa_control');
 const TokenManager = require('./token_manager');
 const query_fa_control_period = require('../PTEC_DATA/query_fa_control_period');
+const axios = require('axios');
+
+
+async function checkImageUrl(url) {
+  try {
+    const response = await axios.head(url); // Use HEAD request to get only the headers
+    const contentType = response.headers['content-type'];
+
+    if (contentType && contentType.startsWith('image')) {
+      console.log('The URL points to an image.');
+      return true;
+    } else {
+      console.log('The URL does not point to an image.');
+      return false;
+    }
+  } catch (error) {
+    console.error('Error checking the image URL:', error);
+    return false;
+  }
+}
 
 
 const getAllasset = async (req, res, next) => {
@@ -126,19 +146,21 @@ const getAllasset2 = async (req, res, next) => {
 const addAsset = async (req, res, next) => {
   try {
     const dataAsset = req.body;
-    const period_loginDateTrue = await query_fa_control_period.period_login(dataAsset);
-    if (period_loginDateTrue.length != 0) {
-      const dataAssetAndUser = await query_fa_control.getAssetByCodeForTest(dataAsset);
-      res.setHeader("Content-Type", "application/json; charset=utf-8");
-      if (dataAssetAndUser.length != 0) {
-        res.status(400).send(JSON.stringify({ message: "สาขาที่ " + dataAssetAndUser[0].UserBranch + " ได้บันทึกทรัพย์สินนี้ไปแล้ว", data: dataAssetAndUser }));
-      } else {
-        const successAdd = await query_fa_control.createAsset(dataAsset);
-        res.send(JSON.stringify({ message: "ทำการบันทึกข้อมูลเสร็จสิ้น", data: successAdd }));
-      }
+    // const successAdd = await query_fa_control.createAsset(dataAsset);
+    // res.send(JSON.stringify({ message: "ทำการบันทึกข้อมูลเสร็จสิ้น", data: successAdd }));
+    // const period_loginDateTrue = await query_fa_control_period.period_login(dataAsset);
+    // if (period_loginDateTrue.length != 0) {
+    const dataAssetAndUser = await query_fa_control.getAssetByCodeForTest(dataAsset);
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    if (dataAssetAndUser.length != 0) {
+      res.status(400).send(JSON.stringify({ message: "สาขาที่ " + dataAssetAndUser[0].UserBranch + " ได้บันทึกทรัพย์สินนี้ไปแล้ว", data: dataAssetAndUser }));
     } else {
-      res.status(400).send(JSON.stringify({ message: "ยังไม่มีการเปิดรอบบันทึกตอนนี้" }));
+      const successAdd = await query_fa_control.createAsset(dataAsset);
+      res.send(JSON.stringify({ message: "ทำการบันทึกข้อมูลเสร็จสิ้น", data: successAdd }));
     }
+    // } else {
+    //   res.status(400).send(JSON.stringify({ message: "ยังไม่มีการเปิดรอบบันทึกตอนนี้" }));
+    // }
   } catch (error) {
     res.status(400).send(error.message)
   }
@@ -817,6 +839,26 @@ const FA_Control_BPC_UpdateTemp = async (req, res) => {
 const FA_Mobile_UploadImage = async (req, res) => {
   try {
     const data = req.body
+    const check = await query_fa_control.scan_check_result(req.body)
+    if (data.index === 0) {
+      if (!checkImageUrl(imagePath)) {
+        const dataImg = {
+          code: check.data[0].Code,
+          imagePath: null,
+          imagePath_2: check.data[0].imagePath_2,
+        }
+        await query_fa_control.delete_image_asset(dataImg)
+      }
+    } else {
+      if (!checkImageUrl(imagePath)) {
+        const dataImg = {
+          code: check.data[0].Code,
+          imagePath: check.data[0].imagePath,
+          imagePath_2: null,
+        }
+        await query_fa_control.delete_image_asset(dataImg)
+      }
+    }
     const new_data = await query_fa_control.FA_Mobile_UploadImage(data);
     if (new_data.length == 0) {
       res.status(400).send(JSON.stringify({ message: "ไม่พบข้อมูล" }));

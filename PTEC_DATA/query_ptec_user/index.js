@@ -7,7 +7,7 @@ const getsUser = async () => {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const list = await pool
       .request()
-      .query(`exec [PTEC_USERSRIGHT].dbo.[Fix_Assets_Control_Fetching_Users]`);
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.[Fix_Assets_Control_Fetching_Users]`);
     //sql.close()
     return list.recordset;
   } catch (error) {
@@ -23,7 +23,7 @@ const getById = async (UserCode) => {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const oneUser = await pool.request()
       .input('UserCode', sql.VarChar(10), UserCode)
-      .query(`exec [PTEC_USERSRIGHT].dbo.[Fix_Assets_Control_Fetching_Users_ByUserCode] @UserCode`);
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.[Fix_Assets_Control_Fetching_Users_ByUserCode] @UserCode`);
     //sql.close()
     return oneUser.recordset;
   } catch (error) {
@@ -41,7 +41,7 @@ const getByEmailAndCode = async (loginuser) => {
     const login = await pool.request()
       .input('UserCode', sql.VarChar(20), loginuser.UserCode)
       .input('Password', sql.VarChar(20), loginuser.Password)
-      .query(`exec [PTEC_USERSRIGHT].dbo.User_Login @UserCode,@Password `);
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.User_Login @UserCode,@Password `);
     //sql.close()
     return login.recordset;
   } catch (error) {
@@ -63,9 +63,9 @@ const AutoDeapartMent = async (autoDeapartMent) => {
                     ,U.[BranchID]
                     ,U.[Name]
                     ,BM.[manager]
-      FROM [PTEC_USERSRIGHT].dbo.[Users] U 
-      LEFT JOIN [PTEC_USERSRIGHT].dbo.[Department] D On D.DepID=U.DepID
-      LEFT JOIN [PTEC_USERSRIGHT].dbo.[Branch_Manager] BM On BM.BranchID=U.BranchID
+      FROM ${config.PTEC.objcn_usersright.sql.database}.dbo.[Users] U 
+      LEFT JOIN ${config.PTEC.objcn_usersright.sql.database}.dbo.[Department] D On D.DepID=U.DepID
+      LEFT JOIN ${config.PTEC.objcn_usersright.sql.database}.dbo.[Branch_Manager] BM On BM.BranchID=U.BranchID
       WHERE U.[UserCode]=@UserCode
       `);
     //sql.close()
@@ -83,7 +83,7 @@ const ChackUserWeb = async (UserWeb) => {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const auto_DeapartMent = await pool.request()
       .input('usercode', sql.VarChar(10), UserWeb.usercode)
-      .query(`exec [PTEC_USERSRIGHT].dbo.Fix_Assets_Control_UserWeb @usercode`);
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.Fix_Assets_Control_UserWeb @usercode`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -101,7 +101,7 @@ const select_Permission_Menu_NAC = async (res) => {
       .input('Permission_TypeID', sql.Int, res.Permission_TypeID)
       .input('userID', sql.Int, res.userID)
       .input('UserCode', sql.VarChar, res.UserCode)
-      .query(`exec [PTEC_USERSRIGHT].dbo.Select_Permission_Menu_NAC @Permission_TypeID,@userID,@UserCode`);
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.Select_Permission_Menu_NAC @Permission_TypeID,@userID,@UserCode`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -117,7 +117,7 @@ const Permission_Menu_NAC = async (res) => {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const auto_DeapartMent = await pool.request()
       .input('UserCode', sql.VarChar, res.UserCode)
-      .query(`exec [PTEC_USERSRIGHT].dbo.Fix_Assets_Control_Permission_Menu`);
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.Fix_Assets_Control_Permission_Menu`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -136,7 +136,7 @@ const Fix_Assets_Control_UPDATE_Permission = async (res) => {
       .input('UserCode', sql.VarChar, res.UserCode)
       .input('menuid', sql.Int, res.menuid)
       .input('id', sql.Int, res.id)
-      .query(`exec [PTEC_USERSRIGHT].dbo.Fix_Assets_Control_UPDATE_Permission @admin ,@UserCode ,@menuid ,@id`);
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.Fix_Assets_Control_UPDATE_Permission @admin ,@UserCode ,@menuid ,@id`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -152,7 +152,7 @@ const Department_List = async (res) => {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const auto_DeapartMent = await pool.request()
       .input('branchid', sql.Int, res.branchid)
-      .query(`exec [PTEC_USERSRIGHT].dbo.[Department_List] @branchid`);
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.[Department_List] @branchid`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -167,7 +167,7 @@ const Branch_ListAll = async (res) => {
   try {
     let pool = await sql.connect(config.PTEC.objcn_usersright.sql);
     const auto_DeapartMent = await pool.request()
-      .query(`exec [PTEC_USERSRIGHT].dbo.[Branch_ListAll]`);
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.[Branch_ListAll]`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
@@ -185,7 +185,7 @@ const useright_getWelfare = async (res) => {
       .input('welfaretypeid', sql.Int, res.welfaretypeid ?? null)
       .input('sbc_hotelProvince', sql.NVarChar, res.sbc_hotelProvince ?? null)
       .input('usercode', sql.NVarChar, res.usercode ?? null)
-      .query(`exec [PTEC_USERSRIGHT].dbo.[useright_getWelfare] @welfaretypeid, @sbc_hotelProvince, @usercode`);
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.[useright_getWelfare] @welfaretypeid, @sbc_hotelProvince, @usercode`);
     //sql.close()
     return auto_DeapartMent.recordset;
   } catch (error) {
