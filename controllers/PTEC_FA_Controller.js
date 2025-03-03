@@ -840,25 +840,25 @@ const FA_Mobile_UploadImage = async (req, res) => {
   try {
     const data = req.body
     const check = await query_fa_control.scan_check_result(req.body)
-    if (data.index === 0) {
-      if (!checkImageUrl(imagePath)) {
-        const dataImg = {
-          code: check.data[0].Code,
-          imagePath: null,
-          imagePath_2: check.data[0].imagePath_2,
-        }
-        await query_fa_control.delete_image_asset(dataImg)
-      }
-    } else {
-      if (!checkImageUrl(imagePath)) {
-        const dataImg = {
-          code: check.data[0].Code,
-          imagePath: check.data[0].imagePath,
-          imagePath_2: null,
-        }
-        await query_fa_control.delete_image_asset(dataImg)
-      }
-    }
+    // if (data.index === 0) {
+    //   if (!checkImageUrl(imagePath)) {
+    //     const dataImg = {
+    //       code: check.data[0].Code,
+    //       imagePath: null,
+    //       imagePath_2: check.data[0].imagePath_2,
+    //     }
+    //     await query_fa_control.delete_image_asset(dataImg)
+    //   }
+    // } else {
+    //   if (!checkImageUrl(imagePath)) {
+    //     const dataImg = {
+    //       code: check.data[0].Code,
+    //       imagePath: check.data[0].imagePath,
+    //       imagePath_2: null,
+    //     }
+    //     await query_fa_control.delete_image_asset(dataImg)
+    //   }
+    // }
     const new_data = await query_fa_control.FA_Mobile_UploadImage(data);
     if (new_data.length == 0) {
       res.status(400).send(JSON.stringify({ message: "ไม่พบข้อมูล" }));
