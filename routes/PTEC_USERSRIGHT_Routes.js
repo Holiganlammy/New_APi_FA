@@ -22,7 +22,8 @@ const { getsUser,
     User_List,
     User_Save,
     Organization_List,
-    User_List_ByPosition
+    User_List_ByPosition,
+    User_active
 } = userController;
 
 router.get('/users', getsUser);
@@ -46,6 +47,7 @@ router.get('/User_List', User_List);
 router.post('/User_Save', User_Save);
 router.get('/Organization_List', Organization_List);
 router.get('/User_List_ByPosition', User_List_ByPosition);
+router.post('/User_active', User_active)
 
 module.exports = {
     routes: router

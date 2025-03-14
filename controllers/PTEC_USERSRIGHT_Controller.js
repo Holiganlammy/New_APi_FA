@@ -261,6 +261,18 @@ const User_List_ByPosition = async (req, res, next) => {
   }
 }
 
+const User_active = async (req, res, next) => {
+  try {
+    const dataRes = await userData.User_active(req.body);
+    if (dataRes.length > 0) {
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      res.status(200).send(dataRes);
+    }
+  } catch (error) {
+    res.status(201).send(error.message);
+  }
+}
+
 module.exports = {
   getsUser,
   getUserCode,
@@ -282,5 +294,6 @@ module.exports = {
   User_List,
   User_Save,
   Organization_List,
-  User_List_ByPosition
+  User_List_ByPosition,
+  User_active
 }

@@ -363,6 +363,23 @@ const User_List_ByPosition = async (req) => {
   }
 }
 
+const User_active = async (req) => {
+  const config = require('../../config');
+  const sql = require('mssql');
+  try {
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
+    const data = await pool.request()
+      .input('userid', sql.Int, req.userid)
+      .input('active', sql.Bit, req.active)
+      .query(`exec [PTEC_USERSRIGHT].dbo.[User_active] @userid, @active`);
+    //sql.close()
+    return data.recordset;
+  } catch (error) {
+    //sql.close()
+    return error.message;
+  }
+}
+
 module.exports = {
   getsUser,
   getById,
@@ -381,5 +398,6 @@ module.exports = {
   User_ResetPassword,
   User_List,
   Organization_List,
-  User_List_ByPosition
+  User_List_ByPosition,
+  User_active
 }
