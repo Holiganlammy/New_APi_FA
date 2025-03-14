@@ -286,7 +286,7 @@ const User_List = async (req) => {
   try {
     let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
-      .query(`exec [TEST_USERSRIGHT].dbo.[User_List]`);
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.[User_List_II]`);
     //sql.close()
     return data.recordset;
   } catch (error) {
@@ -312,7 +312,7 @@ const User_Save = async (req) => {
       .input('email', sql.NVarChar(100), req.email)
       .input('actived', sql.Bit, req.actived)
       .input('password', sql.NVarChar(20), req.password)
-      .query(`exec [PTEC_USERSRIGHT].dbo.[User_Save] 
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.[User_Save] 
               @fristName,
               @lastName,
               @loginname,
@@ -370,8 +370,8 @@ const User_active = async (req) => {
     let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
       .input('userid', sql.Int, req.userid)
-      .input('active', sql.Bit, req.active)
-      .query(`exec [PTEC_USERSRIGHT].dbo.[User_active] @userid, @active`);
+      .input('active', sql.Bit, req.active ? 1 : 0)
+      .query(`exec ${config.PTEC.objcn_usersright.sql.database}.dbo.[User_active] @userid, @active`);
     //sql.close()
     return data.recordset;
   } catch (error) {
@@ -399,5 +399,6 @@ module.exports = {
   User_List,
   Organization_List,
   User_List_ByPosition,
-  User_active
+  User_active,
+  User_Save
 }
