@@ -327,6 +327,7 @@ const FA_Control_Create_Document_NAC = async (res) => {
 }
 
 const FA_Control_Create_Detail_NAC = async (req) => {
+  console.log(req);
   const sql = require("mssql");
   const config = require('../../config');
   try {
@@ -336,6 +337,11 @@ const FA_Control_Create_Detail_NAC = async (req) => {
       .input('nac_code', sql.VarChar(20), req.nac_code)
       .input('nacdtl_row', sql.Int, req.nacdtl_row)
       .input('nacdtl_assetsCode', sql.NVarChar(20), req.nacdtl_assetsCode)
+      .input('nacdtl_assetsSeria', sql.NVarChar(100), req.nacdtl_assetsSeria ?? null)
+      .input('nacdtl_assetsName', sql.NVarChar(200), req.nacdtl_assetsName ?? null)
+      .input('create_date', sql.DateTime, req.create_date ?? null)
+      .input('OwnerCode', sql.NVarChar(20), req.OwnerCode ?? null)
+      .input('nacdtl_assetsDtl', sql.NVarChar(200), req.nacdtl_assetsDtl ?? null)
       .input('nacdtl_bookV', sql.Float, req.nacdtl_bookV)
       .input('nacdtl_PriceSeals', sql.Float, req.nacdtl_PriceSeals)
       .input('nacdtl_profit', sql.Float, req.nacdtl_profit)
@@ -346,6 +352,11 @@ const FA_Control_Create_Detail_NAC = async (req) => {
               @nac_code, 
               @nacdtl_row, 
               @nacdtl_assetsCode, 
+              @nacdtl_assetsSeria,
+              @nacdtl_assetsName,
+              @create_date,
+              @OwnerCode,
+              @nacdtl_assetsDtl,
               @nacdtl_bookV, 
               @nacdtl_PriceSeals, 
               @nacdtl_profit,
@@ -754,7 +765,7 @@ const stroe_FA_control_DTL_ConfirmSuccess = async (res) => {
 
 const store_FA_control_upadate_table = async (req) => {
   console.log(req);
-  
+
   const sql = require("mssql");
   const config = require('../../config');
   try {

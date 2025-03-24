@@ -169,15 +169,11 @@ const addAsset = async (req, res, next) => {
 const updateReference = async (req, res, next) => {
   try {
     const data = req.body;
-    const period_loginDateTrue = await query_fa_control_period.period_login(data);
+    console.log(data);
     if (!data.choice) {
-      if (period_loginDateTrue.length != 0) {
-        const updated = await query_fa_control.updateReference(data);
-        res.setHeader("Content-Type", "application/json; charset=utf-8");
-        res.status(200).send(JSON.stringify({ message: "ทำการเปลียนแปลงข้อมูลเสร็จสิ้น", data: updated }));
-      } else {
-        res.status(400).send(JSON.stringify({ message: "ไม่สามารถแก้ไขได้เนื่องจากรอบบันทึกไม่ตรงถูกต้อง" }));
-      }
+      const updated = await query_fa_control.updateReference(data);
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      res.status(200).send(JSON.stringify({ message: "ทำการเปลียนแปลงข้อมูลเสร็จสิ้น", data: updated }));
     } else if (data.choice === 1) {
       const updated = await query_fa_control.updateReference(data);
       res.setHeader("Content-Type", "application/json; charset=utf-8");

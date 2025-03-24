@@ -71,7 +71,7 @@ router.post('/getAssetbyUserBranch', assetByUserBranch);
 router.post('/wrongBranch', WrongBranch);
 router.post('/testGetBranch', getAllasset2);
 router.post('/lostAssets', lostAssets);
-router.put('/updateReference', updateReference);
+router.post('/updateReference', updateReference);
 router.post('/check_code_result', scan_check_result);
 router.post('/FA_Mobile_UploadImage', FA_Mobile_UploadImage);
 
