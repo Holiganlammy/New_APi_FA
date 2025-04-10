@@ -164,7 +164,6 @@ const addAsset = async (req, res, next) => {
 const updateReference = async (req, res, next) => {
   try {
     const data = req.body;
-    console.log(data);
     if (!data.choice) {
       const updated = await query_fa_control.updateReference(data);
       res.setHeader("Content-Type", "application/json; charset=utf-8");
