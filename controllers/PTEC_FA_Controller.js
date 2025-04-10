@@ -146,21 +146,16 @@ const getAllasset2 = async (req, res, next) => {
 const addAsset = async (req, res, next) => {
   try {
     const dataAsset = req.body;
-    // const successAdd = await query_fa_control.createAsset(dataAsset);
-    // res.send(JSON.stringify({ message: "ทำการบันทึกข้อมูลเสร็จสิ้น", data: successAdd }));
-    // const period_loginDateTrue = await query_fa_control_period.period_login(dataAsset);
-    // if (period_loginDateTrue.length != 0) {
     const dataAssetAndUser = await query_fa_control.getAssetByCodeForTest(dataAsset);
     res.setHeader("Content-Type", "application/json; charset=utf-8");
-    if (dataAssetAndUser.length != 0) {
+    if (dataAssetAndUser.length > 0 && successAdd[0].Status === 1) {
       res.status(400).send(JSON.stringify({ message: "สาขาที่ " + dataAssetAndUser[0].UserBranch + " ได้บันทึกทรัพย์สินนี้ไปแล้ว", data: dataAssetAndUser }));
+    } else if (dataAssetAndUser.length > 0 && successAdd[0].Status === 0) {
+      res.status(400).send(JSON.stringify({ message: `ไม่พบทรัพย์สินนี้ในรอบตรวจนับ`, data: dataAssetAndUser }));
     } else {
       const successAdd = await query_fa_control.createAsset(dataAsset);
       res.send(JSON.stringify({ message: "ทำการบันทึกข้อมูลเสร็จสิ้น", data: successAdd }));
     }
-    // } else {
-    //   res.status(400).send(JSON.stringify({ message: "ยังไม่มีการเปิดรอบบันทึกตอนนี้" }));
-    // }
   } catch (error) {
     res.status(400).send(error.message)
   }
@@ -687,6 +682,8 @@ const check_files_NewNAC = async (req, res) => {
   const attach = 'ATT'
   const new_path = await query_fa_control.FA_Control_Running_NO(attach)
   file.mv(`${newpath}${new_path[0].ATT}.${filename.split('.').pop()}`, (err) => {
+    console.log(err);
+
     if (err) {
       res.status(500).send({ message: "File upload failed", code: 200 });
     }
