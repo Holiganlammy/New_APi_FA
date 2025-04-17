@@ -148,13 +148,14 @@ const addAsset = async (req, res, next) => {
     const dataAsset = req.body;
     const dataAssetAndUser = await query_fa_control.getAssetByCodeForTest(dataAsset);
     res.setHeader("Content-Type", "application/json; charset=utf-8");
-    if (dataAssetAndUser.length > 0 && successAdd[0].Status === 1) {
+    if (dataAssetAndUser.length > 0 && dataAssetAndUser[0].Status) {
       res.status(400).send(JSON.stringify({ message: "สาขาที่ " + dataAssetAndUser[0].UserBranch + " ได้บันทึกทรัพย์สินนี้ไปแล้ว", data: dataAssetAndUser }));
-    } else if (dataAssetAndUser.length > 0 && successAdd[0].Status === 0) {
-      res.status(400).send(JSON.stringify({ message: `ไม่พบทรัพย์สินนี้ในรอบตรวจนับ`, data: dataAssetAndUser }));
-    } else {
+    } else if (dataAssetAndUser.length > 0 && !dataAssetAndUser[0].Status) {
       const successAdd = await query_fa_control.createAsset(dataAsset);
+      console.log(successAdd);
       res.send(JSON.stringify({ message: "ทำการบันทึกข้อมูลเสร็จสิ้น", data: successAdd }));
+    } else if (dataAssetAndUser.length === 0) {
+      res.status(400).send(JSON.stringify({ message: `ไม่พบทรัพย์สินนี้ในรอบตรวจนับ`, data: dataAssetAndUser }));
     }
   } catch (error) {
     res.status(400).send(error.message)
@@ -185,6 +186,7 @@ const AssetsAll_Control = async (req, res, next) => {
   try {
     const data = req.body;
     const allAssets = await query_fa_control.AssetsAll_Control(data);
+    console.log(data);
     res.setHeader("Content-Type", "application/json; charset=utf-8");
     if (allAssets.length > 0 && allAssets) {
       res.status(200).send(JSON.stringify({ message: "success", data: allAssets }));
