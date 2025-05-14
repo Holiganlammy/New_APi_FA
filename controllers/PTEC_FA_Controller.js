@@ -676,20 +676,27 @@ const check_files = async (req, res) => {
 }
 
 const check_files_NewNAC = async (req, res) => {
-  var newpath = 'D:' + "/files/NEW_NAC/";
+  const newpath = 'D:/files/NEW_NAC/';
   const file = req.files.file;
   const filename = file.name;
-  const attach = 'ATT'
-  const new_path = await query_fa_control.FA_Control_Running_NO(attach)
-  file.mv(`${newpath}${new_path[0].ATT}.${filename.split('.').pop()}`, (err) => {
-    console.log(err);
+  const attach = 'ATT';
+  const new_path = await query_fa_control.FA_Control_Running_NO(attach);
+  const newFileName = `${new_path[0].ATT}.${filename.split('.').pop()}`;
 
+  file.mv(`${newpath}${newFileName}`, (err) => {
     if (err) {
-      res.status(500).send({ message: "File upload failed", code: 200 });
+      console.error("File move error:", err);
+      return res.status(500).send({ message: "File upload failed", code: 500 }); //  return here
     }
-    res.status(200).send({ message: "File Uploaded", code: 200, attach: new_path, extension: `${filename.split('.').pop()}` });
+
+    res.status(200).send({
+      message: "File Uploaded",
+      code: 200,
+      attach: new_path,
+      extension: filename.split('.').pop()
+    });
   });
-}
+};
 
 const FA_Control_Delete_PATH = async (req, res) => {
   try {
