@@ -85,12 +85,7 @@ const STrack_Registation = async (req, res, next) => {
 }
 
 const webhooks = async (req, res) => {
-  // console.log('webhooks');
-  // console.log(req.userid);
-  // console.log(req);
   try {
-    
-    
     console.log('#########################################################');
     console.log('try');
     res.status(200).send("OK")
