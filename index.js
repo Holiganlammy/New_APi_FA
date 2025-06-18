@@ -4,6 +4,7 @@ const config = require('./config');
 const cors = require('cors');
 const fileupload = require("express-fileupload");
 const bodyParser = require('body-parser');
+const path = require('path');
 const logger = require('./middleware/logger');
 
 const PTEC_USERSRIGHT_Routes = require('./routes/PTEC_USERSRIGHT_Routes');
@@ -21,13 +22,18 @@ const corsConfig = {
     origin: true,
 };
 
+app.use(cors(corsConfig));
+
+app.use('/NEW_NAC',cors(corsConfig),express.static('D:/files/NEW_NAC'));
+app.use('/smartBill', cors(corsConfig), express.static('D:/files/smartBill'));
+app.use('/files', cors(corsConfig), express.static('D:/files'));
+
 app.use(logger);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static("files"));
 app.use(fileupload());
-app.use(cors(corsConfig));
 app.set('trust proxy', true);
+
 
 app.use('/api', PTEC_USERSRIGHT_Routes.routes);
 app.use('/api', PTEC_FA_Routes.routes);
@@ -40,6 +46,7 @@ app.use('/api', SmartBill.routes);
 app.get('/', (req, res) => {
     res.send('? Node.js is working via IIS Reverse Proxy');
 });
+
 
 app.listen(config.PTEC.port, () =>
     console.log(`Server is listening on http://localhost:${config.PTEC.port}`)
