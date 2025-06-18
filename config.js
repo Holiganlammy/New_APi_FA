@@ -19,7 +19,7 @@ const PTEC = {
   object_ptec_ops: {
     sql: {
       server: SQL_SERVER,
-      database: "PTEC_OPS",
+      database: "PTEC_OPS_UAT",
       user: SQL_USER,
       password: SQL_PASSWORD,
       options: {

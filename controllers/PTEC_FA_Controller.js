@@ -91,6 +91,18 @@ const assetByCode = async (req, res, next) => {
   }
 }
 
+const checkCodeCounted = async (req,res,next) => {
+  try {
+    const data = req.body
+    const res = await query_fa_control.check_code_wrong_branch(data)
+    if(res.length > 0){
+      res.status(200).send(JSON.stringify(`ทรัพย์สินนี้ถูกบันทึกแล้วที่สาขา ${res[0].UserBranchName} ณ วันที่ ${res[0].Date.toLocaleString("sv-SE")}`));
+    }
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+}
+
 const assetByUserBranch = async (req, res, next) => {
   try {
     const UserBranchID = req.body;
@@ -959,6 +971,7 @@ module.exports = {
 
   getAllasset,
   assetByCode,
+  checkCodeCounted,
   addAsset,
   getCode,
   assetByUserBranch,

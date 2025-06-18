@@ -1,10 +1,10 @@
 module.exports = {
     apps: [
       {
-        name: "FA_MAIN_API_STK",
+        name: "FA_UAT_API_33052",
         script: "index.js",
         env: {
-          PORT: 35002,  // ระบุพอร์ตที่ต้องการ
+          PORT: 33052,
           NODE_ENV: "production",
         },
       },

@@ -7,7 +7,9 @@ const router = express.Router();
 const {
     getAllasset,
     assetByCode,
-    addAsset, getCode,
+    checkCodeCounted,
+    addAsset, 
+    getCode,
     assetByUserBranch,
     getAllasset2,
     WrongBranch,
@@ -66,6 +68,7 @@ const {
 router.post('/ReportassetsAll', getAllasset);
 router.post('/getAsset', assetByCode);
 router.get('/getAsset/:body', getCode);
+router.get('/checkCodeCounted',checkCodeCounted);
 router.post('/addAsset', addAsset);
 router.post('/getAssetbyUserBranch', assetByUserBranch);
 router.post('/wrongBranch', WrongBranch);
