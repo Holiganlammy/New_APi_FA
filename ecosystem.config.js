@@ -1,10 +1,10 @@
 module.exports = {
     apps: [
       {
-        name: "FA_UAT_API_33052",
+        name: "FA_MAIN_API",
         script: "index.js",
         env: {
-          PORT: 33052,
+          PORT: 32001,
           NODE_ENV: "production",
         },
       },
