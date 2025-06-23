@@ -1,6 +1,7 @@
 .qodo
 
 # misc
+web.config
 ecosystem.config.js
 .env
 .DS_Store
