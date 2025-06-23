@@ -24,7 +24,7 @@ const {
     FA_Control_select_dtl,
     FA_Control_select_headers,
     store_FA_control_update_DTLandHeaders,
-    store_FA_control_update_DTL,
+    FA_control_update_DTL,
     FA_Control_execDocID,
     FA_Control_Select_MyNAC_Approve,
     FA_control_updateStatus,
@@ -88,7 +88,7 @@ router.post('/FA_Control_select_dtl', FA_Control_select_dtl);
 router.post('/store_FA_control_select_dtl_draff', store_FA_control_select_dtl_draff);
 router.post('/FA_Control_select_headers', FA_Control_select_headers);
 router.post('/store_FA_control_update_DTLandHeaders', store_FA_control_update_DTLandHeaders);
-router.post('/store_FA_control_update_DTL', store_FA_control_update_DTL);
+router.post('/FA_control_update_DTL', FA_control_update_DTL);
 router.post('/FA_Control_execDocID', FA_Control_execDocID);
 router.post('/FA_Control_Select_MyNAC_Approve', FA_Control_Select_MyNAC_Approve);
 router.post('/FA_control_updateStatus', FA_control_updateStatus);

@@ -524,26 +524,31 @@ const store_FA_control_update_DTLandHeaders = async (req) => {
   }
 }
 
-const store_FA_control_update_DTL = async (FA_control_update_DTL) => {
+const FA_control_update_DTL = async (req) => {
   const sql = require("mssql");
   const config = require('../../config');
   try {
     let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const update_DTL = await pool.request()
-      .input('dtl_id', sql.Int, FA_control_update_DTL.dtl_id)
-      .input('usercode', sql.VarChar(10), FA_control_update_DTL.usercode)
-      .input('nac_code', sql.NVarChar(20), FA_control_update_DTL.nac_code)
-      .input('nacdtl_row', sql.Int, FA_control_update_DTL.nacdtl_row)
-      .input('nacdtl_assetsCode', sql.NVarChar(50), FA_control_update_DTL.nacdtl_assetsCode)
-      .input('nacdtl_assetsName', sql.NVarChar(200), FA_control_update_DTL.nacdtl_assetsName)
-      .input('nacdtl_assetsSeria', sql.NVarChar(50), FA_control_update_DTL.nacdtl_assetsSeria)
-      .input('nacdtl_assetsDtl', sql.NVarChar(200), FA_control_update_DTL.nacdtl_assetsDtl)
-      .input('nacdtl_assetsCount', sql.Int, FA_control_update_DTL.nacdtl_assetsCount)
-      .input('nacdtl_assetsPrice', sql.Float, FA_control_update_DTL.nacdtl_assetsPrice)
-      .input('asset_id', sql.Int, FA_control_update_DTL.asset_id)
-      .input('image_1', sql.NVarChar, FA_control_update_DTL.image_1 ?? null)
-      .input('image_2', sql.NVarChar, FA_control_update_DTL.image_2 ?? null)
-      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Update_DTL @dtl_id, @usercode, @nac_code, @nacdtl_row, @nacdtl_assetsCode, @nacdtl_assetsName, @nacdtl_assetsSeria, @nacdtl_assetsDtl, @nacdtl_assetsCount, @nacdtl_assetsPrice, @asset_id, @image_1, @image_2`);
+      .input('usercode', sql.VarChar(10), req.usercode)
+      .input('nac_code', sql.NVarChar(20), req.nac_code)
+      .input('nacdtl_assetsCode', sql.NVarChar(50), req.nacdtl_assetsCode)
+      .input('nacdtl_assetsName', sql.NVarChar(200), req.nacdtl_assetsName)
+      .input('nacdtl_assetsSeria', sql.NVarChar(50), req.nacdtl_assetsSeria)
+      .input('nacdtl_assetsDtl', sql.NVarChar(200), req.nacdtl_assetsDtl)
+      .input('nacdtl_assetsPrice', sql.Float, req.nacdtl_assetsPrice)
+      .input('image_1', sql.NVarChar, req.image_1 ?? null)
+      .input('image_2', sql.NVarChar, req.image_2 ?? null)
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.dbo.FA_Control_Update_DTL 
+        	    @usercode,
+	            @nac_code,
+              @nacdtl_assetsCode,
+              @nacdtl_assetsName,
+              @nacdtl_assetsSeria,
+              @nacdtl_assetsDtl,
+              @nacdtl_assetsPrice,
+	            @image_1,
+	            @image_2`);
     //sql.close()
     return update_DTL.recordset;
   } catch (error) {
@@ -676,7 +681,6 @@ const store_FA_control_comment = async (req) => {
 }
 
 const stroe_FA_control_Path = async (req) => {
-  console.log(req);
   const sql = require("mssql");
   const config = require('../../config');
   try {
@@ -764,8 +768,6 @@ const stroe_FA_control_DTL_ConfirmSuccess = async (res) => {
 }
 
 const store_FA_control_upadate_table = async (req) => {
-  console.log(req);
-
   const sql = require("mssql");
   const config = require('../../config');
   try {
@@ -1359,7 +1361,7 @@ module.exports = {
   store_FA_control_select_dtl_draff,
   FA_Control_select_headers,
   store_FA_control_update_DTLandHeaders,
-  store_FA_control_update_DTL,
+  FA_control_update_DTL,
   FA_Control_execDocID,
   FA_Control_Select_MyNAC_Approve,
   FA_control_updateStatus,

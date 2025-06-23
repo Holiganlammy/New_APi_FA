@@ -360,10 +360,10 @@ const store_FA_control_update_DTLandHeaders = async (req, res, next) => {
   }
 }
 
-const store_FA_control_update_DTL = async (req, res, next) => {
+const FA_control_update_DTL = async (req, res, next) => {
   try {
     const data = req.body;
-    const update_DTL = await query_fa_control.store_FA_control_update_DTL(data);
+    const update_DTL = await query_fa_control.FA_control_update_DTL(data);
     res.setHeader("Content-Type", "application/json; charset=utf-8");
     if (update_DTL.length == 0) {
       res.status(400).send(JSON.stringify({ message: "ไม่พบข้อมูล" }));
@@ -992,7 +992,7 @@ module.exports = {
   store_FA_control_select_dtl_draff,
   FA_Control_select_headers,
   store_FA_control_update_DTLandHeaders,
-  store_FA_control_update_DTL,
+  FA_control_update_DTL,
   FA_Control_execDocID,
   FA_Control_Select_MyNAC_Approve,
   FA_control_updateStatus,
