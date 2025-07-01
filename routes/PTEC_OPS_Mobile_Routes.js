@@ -14,7 +14,6 @@ const lineConfig = {
 }
 
 const {
-
   OPS_Mobile_List_Vender,
   webhooks,
   STrack_Registation,
@@ -30,6 +29,9 @@ const {
 router.get('/OPS_Mobile_List_Vender', OPS_Mobile_List_Vender);
 router.post('/STrack_Registation', STrack_Registation);
 router.post('/webhooks', webhooks, line.middleware(lineConfig));
+router.get('/webhooks', (req, res) => {
+  res.status(200).send('Webhook is running!');
+});
 router.post('/STrack_responseFlex_AfterInsert', STrack_responseFlex_AfterInsert)
 router.post('/STrack_End_Comments', STrack_End_Comments)
 router.post('/STcheck_files', STcheck_files)
