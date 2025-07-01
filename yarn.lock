@@ -406,6 +406,11 @@ date-utils@*:
   resolved "https://registry.npmjs.org/date-utils/-/date-utils-1.2.21.tgz"
   integrity sha1-YfsWzcEnSzyayq/+n8ad+HIKK2Q=
 
+dayjs@^1.11.13:
+  version "1.11.13"
+  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.13.tgz"
+  integrity sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==
+
 debug@*, "debug@>= 0.7.3 < 1":
   version "0.8.1"
   resolved "https://registry.npmjs.org/debug/-/debug-0.8.1.tgz"

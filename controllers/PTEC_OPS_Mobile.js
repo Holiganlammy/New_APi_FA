@@ -1,6 +1,5 @@
 "use strict";
-
-import dayjs from "dayjs";
+const dayjs = require("dayjs");
 const query_OPS_mobile = require("../PTEC_DATA/query_OPS_mobile");
 const axios = require("axios");
 
