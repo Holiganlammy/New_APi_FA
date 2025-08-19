@@ -267,8 +267,8 @@ const User_ResetPassword = async (req) => {
   try {
     let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
     const data = await pool.request()
-      .input('loginname', sql.NVarChar(20), req.loginname)
-      .input('newpassword', sql.NVarChar(100), req.newpassword)
+      .input('loginname', sql.VarChar(20), req.loginname)
+      .input('newpassword', sql.VarChar(20), req.newpassword)
       .query(`exec [PTEC_USERSRIGHT].dbo.[User_ResetPassword] 
               @loginname,
               @newpassword`);
@@ -293,7 +293,32 @@ const User_List = async (req) => {
     //sql.close()
     return error.message;
   }
-}
+};
+
+const User_List_Params = async (userId, usercode) => {
+  const config = require('../../config');
+  const sql = require('mssql');
+  try {
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
+    const request = pool.request();
+
+    if (userId !== undefined && userId !== null)
+      request.input('UserID', sql.Int, userId);
+
+    if (usercode !== undefined && usercode !== null)
+      request.input('usercode', sql.VarChar(20), usercode);
+
+    const data = await request.query(`
+      exec ${config.PTEC.objcn_usersright.sql.database}.dbo.[User_List_II]
+        @UserID = @UserID, 
+        @usercode = @usercode
+    `);
+
+    return data.recordset;
+  } catch (error) {
+    return error.message;
+  }
+};
 
 const User_Save = async (req) => {
   const config = require('../../config');
@@ -397,6 +422,7 @@ module.exports = {
   User_UpdateUserInfo,
   User_ResetPassword,
   User_List,
+  User_List_Params,
   Organization_List,
   User_List_ByPosition,
   User_active,
