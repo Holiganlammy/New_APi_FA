@@ -25,26 +25,160 @@ const getUserCode = async (req, res, next) => {
 }
 
 const login = async (req, res, next) => {
-  try {
-    const codeAndpassword = req.body;
-    const loginData = await userData.getByEmailAndCode(codeAndpassword);
-    const timeElapsed = Date.now()
-    const today = new Date(timeElapsed);
-    res.setHeader("Content-Type", "application/json; charset=utf-8");
-    if (loginData[0] != null) {
-      if (loginData[0].password == 1) {
+    try {
+        const codeAndpassword = req.body;
+        if (!codeAndpassword.UserCode || !codeAndpassword.Password) {
+            return res.status(400).json({ 
+                message: "UserCode and Password are required",
+                success: false 
+            });
+        }
+
+        const loginData = await userData.getByEmailAndCode(codeAndpassword);
+        const timeElapsed = Date.now();
+        const today = new Date(timeElapsed);
+
+        if (!loginData || (loginData[0].password !== 1 && loginData[0].password !== 9)) {
+            return res.status(401).json({
+                message: "Invalid credentials",
+                success: false
+            });
+        }
+        const user = loginData[0];
+        
         const accessToken = TokenManager.getGenarateToken({ "UserCode": loginData[0].password });
-        res.status(200).send(JSON.stringify({ message: "success", data: loginData, token: accessToken, date: today.toLocaleString("sv-SE") }));
-      } else {
-        res.status(400).send(JSON.stringify({ message: "usuccess", data: "invaild password" }));
-      }
-    } else {
-      res.status(400).send(JSON.stringify({ message: "usuccess", data: "Not found UserCode" }));
+
+        const resetPasswordToken = TokenManager.generatePasswordResetToken({ 
+            "UserCode": user.UserCode,
+            "type": "password_reset",
+        });
+        if (user.changepassword === false) {
+            return res.status(200).json({
+                message: "Login success (First Login)",
+                data: loginData,
+                request_reset_token: resetPasswordToken,
+                token: accessToken,
+                changepassword: false,
+                date: today.toLocaleString("sv-SE"),
+                success: true
+            });
+        } 
+        if (user.password == 9) {
+            return res.status(200).json({
+                message: "Login success (password expired)",
+                data: loginData,
+                request_reset_token: resetPasswordToken,
+                expirepassword: true,
+                date: today.toLocaleString("sv-SE"),
+                success: true
+            });
+        } 
+        
+        if (user.password == 1) {
+            return res.status(200).json({
+                message: "Login successful",
+                data: loginData,
+                token: accessToken,
+                date: today.toLocaleString("sv-SE"),
+                success: true
+            });
+        } 
+        return res.status(401).json({ 
+            message: "Invalid password", 
+            success: false 
+        });
+
+    } catch (error) {
+        console.error('Login error:', error);
+        return res.status(500).json({ 
+            message: "Internal server error", 
+            success: false 
+        });
     }
-  } catch (error) {
-    res.send(error);
-  }
-}
+};
+
+const reset_password_expired = async (req, res, next) => {
+    try {
+        const authResult = TokenManager.verifyTokenType(req, "password_reset");
+        
+        if (!authResult.success) {
+            if (authResult.expired) {
+                return res.status(401).json({ 
+                    message: "Password reset token has expired. Please request a new reset link.", 
+                    success: false,
+                    expired: true
+                });
+            }
+            return res.status(401).json({ 
+                message: authResult.error || "Invalid or expired reset token", 
+                success: false 
+            });
+        }
+
+    const { newPassword, confirmPassword, userId } = req.body;
+        
+        // Validate input
+        if (!newPassword || !confirmPassword) {
+            return res.status(400).json({ 
+                message: "New password and confirm password are required", 
+                success: false 
+            });
+        }
+
+        if (newPassword !== confirmPassword) {
+            return res.status(400).json({ 
+                message: "Passwords do not match", 
+                success: false 
+            });
+        }
+
+        // Validate new password
+        if (newPassword.length < 8) {
+            return res.status(400).json({ 
+                message: "Password must be at least 8 characters", 
+                success: false 
+            });
+        }
+        const userList = await userData.User_List_Params(userId, '');
+        const result = await userData.User_ResetPassword({
+          loginname: userList[0].UserCode,
+          newpassword: newPassword
+        });
+        if (result[0].samePassword === 1){
+          return res.status(400).json({
+              message: "New password cannot be the same as the old password",
+              success: false
+          });
+        }
+        if (result[0].success === 0) {
+            return res.status(500).json({ 
+                message: "Failed to change password", 
+                success: false 
+            });
+        }
+
+        return res.status(200).json({ 
+            message: "Password changed successfully", 
+            success: true 
+        });
+
+    } catch (error) {
+        console.error('Change password error:', error);
+
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ 
+                message: "Password reset token has expired. Please request a new reset link.", 
+                success: false,
+                expired: true
+            });
+        }
+        
+        return res.status(500).json({ 
+            message: "Internal server error", 
+            success: false 
+        });
+    }
+};
 
 const getsUserForAssetsControl = async (req, res, next) => {
   try {
@@ -277,6 +411,7 @@ module.exports = {
   getsUser,
   getUserCode,
   login,
+  reset_password_expired,
   getsUserForAssetsControl,
   AutoDeapartMent,
   ChackUserWeb,

@@ -23,7 +23,8 @@ const { getsUser,
     User_Save,
     Organization_List,
     User_List_ByPosition,
-    User_active
+    User_active,
+    reset_password_expired
 } = userController;
 
 router.get('/users', getsUser);
@@ -47,7 +48,8 @@ router.get('/User_List', User_List);
 router.post('/User_Save', User_Save);
 router.get('/Organization_List', Organization_List);
 router.get('/User_List_ByPosition', User_List_ByPosition);
-router.post('/User_active', User_active)
+router.post('/User_active', User_active);
+router.post('/reset_password_expired', reset_password_expired);
 
 module.exports = {
     routes: router
