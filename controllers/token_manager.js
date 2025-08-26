@@ -11,7 +11,7 @@ class TokenManager {
             const authHeader = request.headers.authorization;
             
             if (!authHeader) {
-                return { success: false, error: "No authorization header" };
+                return { success: false, error: "No Authorization Token" };
             }
 
             if (!authHeader.startsWith('Bearer ')) {

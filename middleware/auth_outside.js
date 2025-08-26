@@ -1,22 +1,35 @@
-const jwt = require("jsonwebtoken");
-const config = process.env;
-config.TZ= "Asia/Bangkok";
+const TokenManager = require('../controllers/token_manager'); // path ที่ถูกต้อง
 
 const verifyToken = (req, res, next) => {
-  const token = req.body.token || req.query.token || req.headers["x-access-token"];
-  // console.log(token);
-  if (!token) {
-    return res.status(403).send("A token is required");
-  }
-
   try {
-    const decoded = jwt.verify(token, config.TOKEN_KEY);
-    // console.log(decoded);
-
-    req.user = decoded;
-  } catch (err) {
-    return res.status(401).send(err.message);
+    const authResult = TokenManager.checkAuthenication(req);
+    
+    if (!authResult.success) {
+      if (authResult.expired) {
+        return res.status(401).json({
+          success: false,
+          error: "Token expired",
+          message: "Please login again"
+        });
+      }
+      
+      return res.status(403).json({
+        success: false,
+        error: authResult.error,
+        message: "Access denied"
+      });
+    }
+    req.user = authResult.data;
+    
+    return next();
+    
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: "Server error",
+      message: error.message
+    });
   }
-  return next();
 };
+
 module.exports = verifyToken;
