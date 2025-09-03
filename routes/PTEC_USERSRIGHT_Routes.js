@@ -25,7 +25,8 @@ const { getsUser,
     Organization_List,
     User_List_ByPosition,
     User_active,
-    reset_password_expired
+    reset_password_expired,
+    change_password
 } = userController;
 
 router.get('/users', verifyToken, getsUser);
@@ -51,6 +52,7 @@ router.get('/Organization_List', verifyToken, Organization_List);
 router.get('/User_List_ByPosition', verifyToken, User_List_ByPosition);
 router.post('/User_active', verifyToken, User_active);
 router.post('/reset_password_expired', verifyToken, reset_password_expired);
+router.post('/change_password', verifyToken, change_password);
 
 module.exports = {
     routes: router

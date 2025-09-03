@@ -280,6 +280,25 @@ const User_ResetPassword = async (req) => {
   }
 }
 
+const change_password = async (req) => {
+  const config = require('../../config');
+  const sql = require('mssql');
+  try {
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
+    const data = await pool.request()
+      .input('userCode', sql.VarChar(50), req.userCode)
+      .input('currentPassword', sql.VarChar(255), req.currentPassword)
+      .input('newPassword', sql.VarChar(255), req.newPassword)
+      .input('confirmPassword', sql.VarChar(255), req.confirmPassword)
+      .execute(`${config.PTEC.objcn_usersright.sql.database}.dbo.User_Change_Password_Cloud`);
+    //sql.close()
+    return data.recordset;
+  } catch (error) {
+    //sql.close()
+    return error.message;
+  }
+}
+
 const User_List = async (req) => {
   const config = require('../../config');
   const sql = require('mssql');
@@ -421,6 +440,7 @@ module.exports = {
   test_root,
   User_UpdateUserInfo,
   User_ResetPassword,
+  change_password,
   User_List,
   User_List_Params,
   Organization_List,

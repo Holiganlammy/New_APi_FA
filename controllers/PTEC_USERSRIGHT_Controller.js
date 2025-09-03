@@ -180,6 +180,71 @@ const reset_password_expired = async (req, res, next) => {
     }
 };
 
+const change_password = async (req, res, next) => {
+  try {
+    const { newPassword, confirmPassword, userCode, currentPassword } = req.body;
+
+    if (!newPassword || !confirmPassword || !currentPassword) {
+      return res.status(400).json({ 
+        message: "Current, new, and confirm passwords are required", 
+        success: false 
+      });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ 
+        message: "Passwords do not match", 
+        success: false 
+      });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({ 
+        message: "Password must be at least 8 characters", 
+        success: false 
+      });
+    }
+    console.log(userCode,newPassword,currentPassword,confirmPassword);
+    // const userList = await userData.User_List_Params(userId, '');
+    const result = await userData.change_password({
+      userCode: userCode,
+      newPassword: newPassword,
+      currentPassword: currentPassword,
+      confirmPassword: confirmPassword
+    });
+
+    if (!result || result.length === 0) {
+      return res.status(500).json({ 
+        message: "Unexpected error from database", 
+        success: false 
+      });
+    }
+
+    const dbMessage = result[0].message;
+    console.log("Database message:", result);
+    if (dbMessage !== "Password changed successfully") {
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      return res.status(400).json({
+        message: dbMessage,
+        success: false
+      });
+    }
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    return res.status(200).json({
+      message: dbMessage,
+      success: true
+    });
+
+  } catch (error) {
+    console.error('Change password error:', error);
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false
+    });
+  }
+};
+
+
 const getsUserForAssetsControl = async (req, res, next) => {
   try {
     const users = await userData.getsUser();
@@ -412,6 +477,7 @@ module.exports = {
   getUserCode,
   login,
   reset_password_expired,
+  change_password,
   getsUserForAssetsControl,
   AutoDeapartMent,
   ChackUserWeb,
