@@ -498,9 +498,12 @@ const qureyNAC_path = async (req, res, next) => {
   try {
     const data = req.body;
     const NAC_path = await query_fa_control.qureyNAC_path(data);
+    console.log(NAC_path);
     res.setHeader("Content-Type", "application/json; charset=utf-8");
     if (NAC_path.length > 0) {
       res.status(200).send(JSON.stringify(NAC_path));
+    } else {
+      res.send(JSON.stringify([]));
     }
   } catch (error) {
     res.status(201).send(error.message);

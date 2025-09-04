@@ -37,7 +37,13 @@ const login = async (req, res, next) => {
         const loginData = await userData.getByEmailAndCode(codeAndpassword);
         const timeElapsed = Date.now();
         const today = new Date(timeElapsed);
-
+        if (loginData[0].Actived === 0){
+            return res.status(403).json({ 
+                message: "User is inactive. Please contact the administrator.",
+                success: false,
+                Actived: false
+            });
+        }
         if (!loginData || (loginData[0].password !== 1 && loginData[0].password !== 9)) {
             return res.status(401).json({
                 message: "Invalid credentials",
