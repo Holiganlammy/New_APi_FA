@@ -691,8 +691,27 @@ const check_files = async (req, res) => {
 }
 
 const check_files_NewNAC = async (req, res) => {
+    const MAX_SIZE_MB = 10;
+    const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
+
+    // ✅ ตรวจว่ามีไฟล์มั้ย
+    if (!req.files || !req.files.file) {
+      return res.status(400).json({
+        message: "No file uploaded",
+        success: false
+      });
+    }
+
+    const file = req.files.file;
+
+    // ✅ ตรวจขนาดไฟล์เกิน 10MB หรือไม่
+    if (file.size > MAX_SIZE_BYTES) {
+      return res.status(413).json({
+        message: `File size exceeds ${MAX_SIZE_MB} MB`,
+        success: false
+      });
+    }
   const newpath = 'D:/files/NEW_NAC/';
-  const file = req.files.file;
   const filename = file.name;
   const attach = 'ATT';
   const new_path = await query_fa_control.FA_Control_Running_NO(attach);
