@@ -1204,6 +1204,7 @@ const FA_Control_UpdateDetailCounted = async (req) => {
       .input('image_1', sql.NVarChar, req.image_1)
       .input('image_2', sql.NVarChar, req.image_2)
       .input('userid', sql.Int, req.userid)
+      .input('UserBranch', sql.NVarChar(20), req.UserBranch)
       .query(`
         exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_UpdateDetailCounted]
         @roundid,
@@ -1213,7 +1214,8 @@ const FA_Control_UpdateDetailCounted = async (req) => {
         @reference,
         @image_1,
         @image_2,
-        @userid
+        @userid,
+        @UserBranch
         `);
     return fetch_assets.recordset;
   } catch (error) {
