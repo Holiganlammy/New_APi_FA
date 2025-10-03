@@ -977,7 +977,20 @@ const FA_Control_Assets_TypeGroup = async (req, res) => {
     res.status(201).send(error.message);
   }
 }
-
+const FA_Control_Get_Current_Approver = async (req, res) => {
+  try {
+    const nac_code = req.query.nac_code
+    // console.log(nac_code);
+    const new_data = await query_fa_control.FA_Control_Get_Current_Approver(nac_code);
+    if (new_data.length == 0) {
+      res.status(400).send(JSON.stringify({ message: "ไม่พบข้อมูล" }));
+    } else {
+      res.status(200).send(JSON.stringify(new_data));
+    }
+  } catch (error) {
+    res.status(201).send(error.message);
+  }
+}
 
 module.exports = {
 
@@ -1046,6 +1059,7 @@ module.exports = {
   FA_Control_AnnualGraph,
   FA_Control_NAC_Backlog,
   FA_Control_Assets_TypeGroup,
+  FA_Control_Get_Current_Approver,
 
   // Assets
   UpdateDtlAsset
