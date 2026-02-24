@@ -66,7 +66,7 @@ const SmartBill_files = async (req, res) => {
     const st_code = req.body.sb_code;
     const filename = file.name;
     const usercode = 'SYSTEM' //SYSTEM (users)
-    const url = 'http://vpnptec.dyndns.org:33080/smartBill/'
+    const url = 'https://portal.purethai.co.th/smartBill/images/'
 
     const attach = 'ATT'
     const new_path = await query_OPS_mobile.FA_Control_Running_NO(attach)
