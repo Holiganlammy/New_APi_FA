@@ -992,6 +992,21 @@ const FA_Control_Get_Current_Approver = async (req, res) => {
   }
 }
 
+const FA_Control_Reset_Last_Approver = async (req, res) => {
+  try {
+    const nac_code = req.body.nac_code
+    // console.log(nac_code);
+    const new_data = await query_fa_control.FA_Control_Reset_Last_Approver(nac_code);
+    if (new_data.length == 0) {
+      res.status(400).send(JSON.stringify({ message: "ไม่พบข้อมูล" }));
+    } else {
+      res.status(200).send(JSON.stringify(new_data));
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
+
 module.exports = {
 
   //BPC
@@ -1060,6 +1075,7 @@ module.exports = {
   FA_Control_NAC_Backlog,
   FA_Control_Assets_TypeGroup,
   FA_Control_Get_Current_Approver,
+  FA_Control_Reset_Last_Approver,
 
   // Assets
   UpdateDtlAsset

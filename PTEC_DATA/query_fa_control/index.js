@@ -1338,6 +1338,20 @@ const FA_Control_Get_Current_Approver = async (req) => {
   }
 };
 
+const FA_Control_Reset_Last_Approver = async (req) => {
+  const sql = require("mssql");
+  const config = require('../../config');
+  try {
+    let pool = await sql.connect(config.PTEC.object_ptec_ops.sql);
+    const fetch_approver = await pool.request()
+    .input('nac_code', sql.VarChar(20), req)
+      .query(`exec ${config.PTEC.object_ptec_ops.sql.database}.[dbo].[FA_Control_Reset_Last_Approver] @nac_code`);
+    return fetch_approver.recordset;
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
 
   //BPC
@@ -1407,5 +1421,6 @@ module.exports = {
   FA_Control_AnnualGraph,
   FA_Control_NAC_Backlog,
   FA_Control_Assets_TypeGroup,
-  FA_Control_Get_Current_Approver
+  FA_Control_Get_Current_Approver,
+  FA_Control_Reset_Last_Approver,
 }

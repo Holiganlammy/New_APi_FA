@@ -63,7 +63,8 @@ const {
     FA_Control_UpdateDetailCounted,
     FA_Control_AnnualGraph,
     FA_Control_NAC_Backlog,
-    FA_Control_Get_Current_Approver
+    FA_Control_Get_Current_Approver,
+    FA_Control_Reset_Last_Approver
 } = assetController;
 
 router.post('/ReportassetsAll', verifyToken, getAllasset);
@@ -132,6 +133,7 @@ router.post('/FA_Control_BPC_SubmitVertify', verifyToken, FA_Control_BPC_SubmitV
 router.post('/FA_Control_BPC_UpdateTemp', verifyToken, FA_Control_BPC_UpdateTemp);
 router.get('/FA_Control_ListStatus', verifyToken, FA_Control_ListStatus);
 router.get('/FA_Control_Get_Current_Approver', verifyToken, FA_Control_Get_Current_Approver);
+router.post('/FA_Control_Reset_Last_Approver', verifyToken, FA_Control_Reset_Last_Approver);
 
 //Assets
 router.post('/UpdateDtlAsset', verifyToken, UpdateDtlAsset);
