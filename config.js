@@ -22,6 +22,7 @@ const PTEC = {
       database: "PTEC_OPS",
       user: SQL_USER,
       password: SQL_PASSWORD,
+      requestTimeout: 30000,
       options: {
         encrypt: sqlEncrypt,
         enableArithAbort: true,
@@ -35,6 +36,7 @@ const PTEC = {
       database: "PTEC_USERSRIGHT",
       user: SQL_USER,
       password: SQL_PASSWORD,
+      requestTimeout: 30000,
       options: {
         encrypt: sqlEncrypt,
         enableArithAbort: true,
@@ -48,6 +50,7 @@ const PTEC = {
       database: "TEST_OPS",
       user: SQL_USER,
       password: SQL_PASSWORD,
+      requestTimeout: 30000,
       options: {
         encrypt: sqlEncrypt,
         enableArithAbort: true,
@@ -61,6 +64,7 @@ const PTEC = {
       database: "TEST_PDPA",
       user: SQL_USER,
       password: SQL_PASSWORD,
+      requestTimeout: 30000,
       options: {
         encrypt: sqlEncrypt,
         enableArithAbort: true,
