@@ -146,26 +146,20 @@ const reset_password_expired = async (req, res, next) => {
             });
         }
         const userList = await userData.User_List_Params(userId, '');
-        const result = await userData.User_ResetPassword({
+        const result = await userData.User_ChangePassword({
           loginname: userList[0].UserCode,
           newpassword: newPassword
         });
-        if (result[0].samePassword === 1){
-          return res.status(400).json({
-              message: "New password cannot be the same as the old password",
-              success: false
-          });
-        }
-        if (result[0].success === 0) {
-            return res.status(500).json({ 
-                message: "Failed to change password", 
-                success: false 
+        if (!result.success) {
+            return res.status(400).json({
+                message: result.message || "Failed to change password",
+                success: false
             });
         }
 
-        return res.status(200).json({ 
-            message: "Password changed successfully", 
-            success: true 
+        return res.status(200).json({
+            message: "Password changed successfully",
+            success: true
         });
 
     } catch (error) {
